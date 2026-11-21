@@ -214,3 +214,10 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .demo-box .actions{margin-top:28px}
 .demo-list{font-size:17px}
 @media (max-width:960px){.demo-box{grid-template-columns:1fr;padding:28px;gap:24px}}
+/* модели SmartStrike */
+.model .m-risk{font-size:44px;font-weight:800;line-height:1;margin-top:18px;color:var(--text)}
+.model .m-cap{color:var(--muted);font-size:14px;margin:6px 0 14px}
+.model .m-bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:16px}
+.model .m-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#00d26a,#f5c242 60%,#f23645)}
+.badge.b-cons{background:rgba(0,210,106,.14);color:#5dffa8}
+.badge.b-agr{background:rgba(242,54,69,.14);color:#ff7b86}
