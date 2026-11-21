@@ -75,3 +75,43 @@
   els.forEach(function (e) { io.observe(e); });
 })();
 
+
+// Воронка: готовый текст сообщения Игорю, учёт кликов, окно при уходе.
+(function () {
+  var ru = document.documentElement.lang === 'ru', B = document.body;
+  var page = (document.title.split('—')[0] || '').trim() || location.pathname;
+  // 1. Кнопки «Написать» сразу подставляют текст с пометкой страницы
+  var txt = ru ? 'Здравствуйте! Интересует SmartStrike. (с сайта: ' + page + ')'
+               : 'Hello! I am interested in SmartStrike. (from website: ' + page + ')';
+  document.querySelectorAll('a[href="https://t.me/ricfxa"]').forEach(function (a) { a.href += '?text=' + encodeURIComponent(txt); });
+  // 2. Учёт кликов по ссылкам наружу (работает, когда включён счётчик GoatCounter)
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="http"]');
+    if (a && window.goatcounter && goatcounter.count) {
+      var h = a.href.split('?')[0].replace(/^https?:\/\//, '');
+      goatcounter.count({ path: 'click: ' + h + ' | ' + location.pathname, title: a.textContent.trim(), event: true });
+    }
+  });
+  // 3. Окно при уходе: компьютер — мышь уходит вверх; телефон — через 40 сек. Раз в 3 дня.
+  var KEY = 'ricExit', guide = B.dataset.guide, ch = B.dataset.ch;
+  if (!guide) return;
+  try { if (Date.now() - (+localStorage.getItem(KEY) || 0) < 3 * 864e5) return; } catch (e) {}
+  var shown = false, t0 = Date.now();
+  function show() {
+    if (shown) return; shown = true; try { localStorage.setItem(KEY, Date.now()); } catch (e) {}
+    var w = document.createElement('div'); w.className = 'exit';
+    w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
+      '<div class="kicker">' + (ru ? 'Подождите' : 'Before you go') + '</div>' +
+      '<h3>' + (ru ? 'Заберите бесплатно' : 'Take these for free') + '</h3>' +
+      '<a class="exit-card" href="' + guide + '" target="_blank" rel="noopener"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Полный курс с нуля, без регистрации' : 'A full course from scratch, no sign-up') + '</span></a>' +
+      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Итоги каждой недели, разборы рынка' : 'Weekly results and market reviews') + '</span></a>' +
+      '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : 'No, thanks') + '</a></div>';
+    B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
+    function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
+    w.querySelector('.exit-x').onclick = close; w.querySelector('.exit-skip').onclick = close;
+    w.onclick = function (e) { if (e.target === w) close(); };
+    w.querySelectorAll('.exit-card').forEach(function (a) { a.addEventListener('click', function () { setTimeout(close, 200); }); });
+  }
+  document.addEventListener('mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 5 && Date.now() - t0 > 5000) show(); });
+  if (matchMedia('(hover: none)').matches) setTimeout(show, 40000);
+})();
