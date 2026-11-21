@@ -74,3 +74,29 @@
   }, { threshold: 0.12 });
   els.forEach(function (e) { io.observe(e); });
 })();
+
+// Временный выбор шрифта (для Игоря): панель внизу слева, выбор запоминается.
+(function () {
+  var F = ["Manrope","Unbounded","Onest","Geologica","Montserrat","Golos Text","Rubik","Exo 2","Raleway","Jost","Sora","Space Grotesk","Plus Jakarta Sans","Outfit","Inter Tight","Syne"];
+  var st = document.createElement('style'); document.head.appendChild(st);
+  function apply(i) {
+    var f = F[i]; try { localStorage.setItem('ricFont', i); } catch (e) {}
+    if (!document.getElementById('gf' + i)) { var l = document.createElement('link'); l.id = 'gf' + i; l.rel = 'stylesheet';
+      l.href = 'https://fonts.googleapis.com/css2?family=' + f.replace(/ /g, '+') + ':wght@400;500;600;700;800&display=swap'; document.head.appendChild(l); }
+    st.textContent = i ? "body,h1,h2,h3,h4,.wm,.btn,nav a,button{font-family:'" + f + "',sans-serif!important}" : '';
+    sel.value = i;
+  }
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;left:12px;bottom:12px;z-index:99;background:#131722;border:1px solid #00d26a;border-radius:10px;padding:8px 10px;font:13px sans-serif;color:#d1d4dc;display:flex;gap:6px;align-items:center';
+  var sel = document.createElement('select');
+  sel.style.cssText = 'background:#0b0e14;color:#fff;border:1px solid #2a2e39;border-radius:6px;padding:4px;font-size:13px';
+  F.forEach(function (f, i) { var o = document.createElement('option'); o.value = i; o.textContent = (i ? i + '. ' : '0. ') + f + (i ? '' : ' (сейчас)'); sel.appendChild(o); });
+  function step(d) { apply((+sel.value + d + F.length) % F.length); }
+  var b1 = document.createElement('button'), b2 = document.createElement('button');
+  [b1, b2].forEach(function (b) { b.style.cssText = 'background:#00d26a;color:#000;border:0;border-radius:6px;width:28px;height:26px;cursor:pointer;font-weight:800'; });
+  b1.textContent = '‹'; b2.textContent = '›'; b1.onclick = function () { step(-1); }; b2.onclick = function () { step(1); };
+  sel.onchange = function () { apply(+sel.value); };
+  box.append('Font:', b1, sel, b2); document.body.appendChild(box);
+  var q = (location.search.match(/font=(\d+)/) || [])[1], s = 0; try { s = +(localStorage.getItem('ricFont') || 0); } catch (e) {}
+  apply(q !== undefined ? +q % F.length : s);
+})();
