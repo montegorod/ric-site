@@ -254,3 +254,7 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .doc-nav{margin-top:18px;font-size:16px}
 section[id]{scroll-margin-top:80px}
 @media (max-width:960px){.dd{flex-direction:column;align-items:flex-start}.dd-t{display:none}.dd-m{display:flex;position:static;padding:0;min-width:0;gap:20px}.dd-m::before{display:none}.dd-m a{padding:0}.dd-m a:first-child,.dd-m a:last-child{margin:0}}
+.model .m-bar i.m-c{background:#00d26a}
+.model .m-bar i.m-s{background:linear-gradient(90deg,#00d26a,#f5c242)}
+.model .m-bar i.m-a{background:linear-gradient(90deg,#00d26a,#f5c242 50%,#f23645)}
+.badge.b-std{background:rgba(245,194,66,.15);color:#f5c242}
