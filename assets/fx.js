@@ -104,8 +104,9 @@
       } else {
         var b = document.createElement('a'); b.className = 'btn btn-wa'; b.target = '_blank'; b.rel = 'noopener';
         b.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(a.dataset.txt);
-        var label = a.textContent.trim(); label = /Telegram/.test(label) ? label.replace('Telegram', 'WhatsApp') : 'WhatsApp';
-        b.innerHTML = ico + ' ' + label; a.after(b);
+        var label = a.textContent.trim();
+        if (!/Telegram/.test(label)) { label += ru ? ' через Telegram' : ' via Telegram'; a.innerHTML = tgIco + ' ' + label; }
+        b.innerHTML = ico + ' ' + label.replace('Telegram', 'WhatsApp'); a.after(b);
       }
     });
     document.querySelectorAll('a[href="https://wa.me/' + wa + '"]').forEach(function (a) { a.href = waHref; });
