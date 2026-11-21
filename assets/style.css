@@ -6,11 +6,11 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:Jost,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img,svg{max-width:100%;display:block}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-h1,h2,h3{font-family:Manrope,sans-serif;letter-spacing:-.035em;line-height:1.05}
+h1,h2,h3{font-family:Jost,sans-serif;letter-spacing:-.02em;line-height:1.05}
 h1{font-size:clamp(40px,6.4vw,78px);font-weight:800}
 h2{font-size:clamp(30px,4.2vw,52px);font-weight:800}
 h3{font-size:22px;font-weight:700}
@@ -58,7 +58,7 @@ section{padding:96px 0}
 .panel-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .panel-head .sym{font-weight:700}
 .panel-head .big{font-size:34px;font-weight:800;color:var(--green)}
-.chart text{fill:var(--muted);font-size:11px;font-family:Manrope,sans-serif}
+.chart text{fill:var(--muted);font-size:11px;font-family:Jost,sans-serif}
 
 .grid{display:grid;gap:20px}
 .g2{grid-template-columns:repeat(2,1fr)}
@@ -75,7 +75,7 @@ a.card:hover{border-color:var(--green);transform:translateY(-2px)}
 /* шаги */
 .steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .step{border-top:2px solid var(--line);padding-top:22px}
-.step::before{counter-increment:s;content:"0" counter(s);display:block;font-size:56px;font-weight:800;color:var(--green);line-height:1;margin-bottom:14px;font-family:Manrope,sans-serif}
+.step::before{counter-increment:s;content:"0" counter(s);display:block;font-size:56px;font-weight:800;color:var(--green);line-height:1;margin-bottom:14px;font-family:Jost,sans-serif}
 .step p{color:var(--muted);font-size:16px;margin-top:6px}
 
 /* таблицы */
@@ -151,7 +151,7 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 /* схема копирования */
 .flow{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:36px;overflow:hidden}
 .flow svg{width:100%;height:auto}
-.flow text{font-family:Manrope,sans-serif;fill:var(--text)}
+.flow text{font-family:Jost,sans-serif;fill:var(--text)}
 .flow .sub{fill:var(--muted);font-size:13px}
 .node{fill:#0b0e14;stroke:var(--line);stroke-width:1.5}
 .pulse{animation:pulse 2.4s ease-out infinite;transform-box:fill-box;transform-origin:center}
@@ -169,7 +169,7 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.chart .bar{transform:none}}
 
 /* фирменная надпись как в логотипе */
-.wm{font-family:Montserrat,sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;line-height:1.15;background:linear-gradient(135deg,#7dffb8,#00d26a 55%,#00a854);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wm{font-family:Jost,sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;line-height:1.15;background:linear-gradient(135deg,#7dffb8,#00d26a 55%,#00a854);-webkit-background-clip:text;background-clip:text;color:transparent}
 .wm small{display:block;font-size:9.5px;letter-spacing:.42em;font-weight:600;color:#9aa3b2;-webkit-text-fill-color:#9aa3b2;margin-top:2px}
 .logo{gap:12px}
 .wm{white-space:nowrap;font-size:14px}
