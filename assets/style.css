@@ -231,3 +231,10 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .dg-old{border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:12px;background:rgba(19,23,34,.82)}
 .dg-old summary{cursor:pointer}
 .dg-old .dg-p{margin:0 0 12px;font-size:16px}
+/* меню длинное: на средних экранах прячем в кнопку ☰, «Написать нам» остаётся */
+@media (max-width:1240px) and (min-width:961px){
+  .menu{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--bg);padding:20px;border-bottom:1px solid var(--line);font-size:16px}
+  .menu.open{display:flex}
+  .lang{margin-left:auto}
+  .burger{display:block}
+}
