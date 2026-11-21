@@ -112,6 +112,29 @@
       goatcounter.count({ path: 'click: ' + h + ' | ' + location.pathname, title: a.textContent.trim(), event: true });
     }
   });
+  // Окно перед переходом на живой мониторинг: что именно там показано
+  var mon = B.dataset.mon;
+  if (mon) document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="' + mon + '"]');
+    if (!a || a.dataset.ok) return;
+    e.preventDefault();
+    var br = B.dataset.monBroker, since = B.dataset.monSince;
+    var w = document.createElement('div'); w.className = 'exit';
+    w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
+      '<div class="kicker">' + (ru ? 'Обратите внимание' : 'Please note') + '</div>' +
+      '<h3>' + (ru ? 'Что показывает мониторинг' : 'What the monitor shows') + '</h3>' +
+      '<p style="color:var(--muted);margin-bottom:12px">' + (ru
+        ? 'Живой мониторинг показывает <b style="color:var(--text)">последнюю версию SmartStrike</b> после всех обновлений, на одном счёте у брокера <b style="color:var(--text)">' + br + '</b>, с <b style="color:var(--text)">' + since + '</b>.'
+        : 'The live monitor shows <b style="color:var(--text)">the latest version of SmartStrike</b> after all updates, on one account with <b style="color:var(--text)">' + br + '</b>, since <b style="color:var(--text)">' + since + '</b>.') + '</p>' +
+      '<p style="color:var(--muted);margin-bottom:20px">' + (ru
+        ? 'Помесячные результаты на сайте — история стратегии за всё время, поэтому цифры на мониторинге могут немного отличаться.'
+        : 'The monthly results on this site are the strategy history over the whole period, so the monitor figures may differ slightly.') + '</p>' +
+      '<a class="btn btn-green" style="width:100%;justify-content:center" href="' + a.href + '" target="_blank" rel="noopener">' + (ru ? 'Понятно, открыть мониторинг' : 'Got it, open the monitor') + '</a></div>';
+    B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
+    function close() { w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
+    w.querySelector('.exit-x').onclick = close; w.onclick = function (ev) { if (ev.target === w) close(); };
+    w.querySelector('.btn').addEventListener('click', function () { setTimeout(close, 200); });
+  });
   // 3. Окно при уходе: компьютер — мышь уходит вверх; телефон — через 40 сек. Раз в 3 дня.
   var KEY = 'ricExit', guide = B.dataset.guide, ch = B.dataset.ch;
   if (!guide) return;

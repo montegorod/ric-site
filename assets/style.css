@@ -145,8 +145,8 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .toast{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;background:rgba(19,23,34,.92);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:14px;font-weight:600;box-shadow:0 12px 40px rgba(0,0,0,.45);backdrop-filter:blur(8px);animation:float 6s ease-in-out infinite}
 .toast i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(0,210,106,.15);color:var(--green)}
 .toast small{display:block;color:var(--muted);font-weight:500;font-size:12px}
-.toast.t1{top:-22px;left:-34px}
-.toast.t2{bottom:-26px;right:-28px;animation-delay:-3s}
+.toast.t1{top:-40px;left:-34px}
+.toast.t2{bottom:-74px;right:-28px;animation-delay:-3s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 /* схема копирования */
 .flow{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:36px;overflow:hidden}
@@ -197,3 +197,9 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .contact-wrap.open .contact-menu{display:block}
 .contact-menu a{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;color:var(--text);font-weight:600}
 .contact-menu a:hover{background:rgba(0,210,106,.08);color:var(--green)}
+/* отзывы */
+.rv-grid{columns:4 240px;column-gap:16px}
+.rv{display:block;break-inside:avoid;margin-bottom:16px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);position:relative;transition:border-color .2s,transform .2s}
+.rv:hover{border-color:var(--green);transform:translateY(-2px)}
+.rv img{display:block;width:100%;height:auto}
+.rv span{position:absolute;right:8px;bottom:8px;background:rgba(11,14,20,.8);color:var(--muted);font-size:12px;padding:3px 8px;border-radius:999px}
