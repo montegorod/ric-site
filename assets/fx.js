@@ -133,7 +133,8 @@
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close() { w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.onclick = function (ev) { if (ev.target === w) close(); };
-    w.querySelector('.btn').addEventListener('click', function () { setTimeout(close, 200); });
+    var go = w.querySelector('.btn'); go.dataset.ok = '1';
+    go.addEventListener('click', function () { setTimeout(close, 200); });
   });
   // 3. Окно при уходе: компьютер — мышь уходит вверх; телефон — через 40 сек. Раз в 3 дня.
   var KEY = 'ricExit', guide = B.dataset.guide, ch = B.dataset.ch;
