@@ -205,3 +205,12 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .rv img{display:block;width:100%;height:auto}
 .rv span{position:absolute;right:8px;bottom:8px;background:rgba(11,14,20,.8);color:var(--muted);font-size:12px;padding:3px 8px;border-radius:999px}
 .flow .brk{fill:var(--green);text-decoration:underline}
+/* демо */
+.demo-pill{display:inline-flex;align-items:center;gap:10px;margin:-14px 0 28px;padding:8px 16px 8px 8px;border:1px solid rgba(0,210,106,.4);border-radius:999px;background:rgba(0,210,106,.07);color:var(--text);font-size:15px;transition:.2s}
+.demo-pill b{background:var(--green);color:#03130a;border-radius:999px;padding:4px 12px;font-size:13px}
+.demo-pill:hover{border-color:var(--green);background:rgba(0,210,106,.13)}
+.demo-box{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center;padding:48px;border-radius:24px;border:1px solid rgba(0,210,106,.4);background:radial-gradient(600px 300px at 0% 0%,rgba(0,210,106,.16),transparent 70%),rgba(19,23,34,.85);box-shadow:0 0 60px rgba(0,210,106,.1)}
+.demo-box h2{margin:10px 0 16px}
+.demo-box .actions{margin-top:28px}
+.demo-list{font-size:17px}
+@media (max-width:960px){.demo-box{grid-template-columns:1fr;padding:28px;gap:24px}}

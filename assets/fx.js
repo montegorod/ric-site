@@ -84,7 +84,11 @@
   // 1. Кнопки «Написать» сразу подставляют текст с пометкой страницы
   var txt = ru ? 'Здравствуйте! Интересует SmartStrike. (с сайта: ' + page + ')'
                : 'Hello! I am interested in SmartStrike. (from website: ' + page + ')';
-  document.querySelectorAll('a[href="https://t.me/ricfxa"]').forEach(function (a) { a.href += '?text=' + encodeURIComponent(txt); });
+  var tgIco = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4ZM9 14.2l9.1-7.6c.4-.4-.1-.5-.6-.2l-10 6.3"/></svg>';
+  document.querySelectorAll('a[href="https://t.me/ricfxa"]').forEach(function (a) {
+    a.dataset.txt = a.dataset.msg || txt; a.href += '?text=' + encodeURIComponent(a.dataset.txt);
+    if (a.classList.contains('btn') && !a.classList.contains('btn-sm')) a.innerHTML = tgIco + ' ' + a.innerHTML;
+  });
   // WhatsApp: кнопка рядом с каждой большой кнопкой Telegram, в шапке — выбор из двух
   var wa = B.dataset.wa;
   if (wa) {
@@ -93,13 +97,15 @@
     document.querySelectorAll('a.btn[href^="https://t.me/ricfxa"]').forEach(function (a) {
       if (a.classList.contains('btn-sm')) {
         var m = document.createElement('div'); m.className = 'contact-menu';
-        m.innerHTML = '<a href="' + a.href + '" target="_blank" rel="noopener">Telegram</a><a href="' + waHref + '" target="_blank" rel="noopener">' + ico + ' WhatsApp</a>';
+        m.innerHTML = '<a href="' + a.href + '" target="_blank" rel="noopener">' + tgIco + ' Telegram</a><a href="' + waHref + '" target="_blank" rel="noopener">' + ico + ' WhatsApp</a>';
         var w = document.createElement('span'); w.className = 'contact-wrap'; a.parentNode.insertBefore(w, a); w.append(a, m);
         a.addEventListener('click', function (e) { e.preventDefault(); w.classList.toggle('open'); });
         document.addEventListener('click', function (e) { if (!w.contains(e.target)) w.classList.remove('open'); });
       } else {
-        var b = document.createElement('a'); b.className = 'btn btn-wa'; b.href = waHref; b.target = '_blank'; b.rel = 'noopener';
-        b.innerHTML = ico + ' WhatsApp'; a.after(b);
+        var b = document.createElement('a'); b.className = 'btn btn-wa'; b.target = '_blank'; b.rel = 'noopener';
+        b.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(a.dataset.txt);
+        var label = a.textContent.trim(); label = /Telegram/.test(label) ? label.replace('Telegram', 'WhatsApp') : 'WhatsApp';
+        b.innerHTML = ico + ' ' + label; a.after(b);
       }
     });
     document.querySelectorAll('a[href="https://wa.me/' + wa + '"]').forEach(function (a) { a.href = waHref; });
