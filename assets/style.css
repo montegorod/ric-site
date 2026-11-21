@@ -221,3 +221,7 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .model .m-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#00d26a,#f5c242 60%,#f23645)}
 .badge.b-cons{background:rgba(0,210,106,.14);color:#5dffa8}
 .badge.b-agr{background:rgba(242,54,69,.14);color:#ff7b86}
+.free-pill{display:inline-block;margin-top:-10px;padding:6px 14px;border-radius:999px;background:var(--green);color:#03130a;font-weight:700;font-size:14px}
+.exit-dl{display:flex;gap:10px;margin-top:12px}
+.exit-dl a{flex:1;text-align:center;padding:9px 10px;border-radius:10px;border:1px solid rgba(0,210,106,.5);color:var(--green);font-weight:700;font-size:14px;transition:.2s}
+.exit-dl a:hover{background:rgba(0,210,106,.12)}
