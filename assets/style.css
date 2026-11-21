@@ -16,7 +16,7 @@ h2{font-size:clamp(30px,4.2vw,52px);font-weight:800}
 h3{font-size:22px;font-weight:700}
 .muted{color:var(--muted)}
 .green{color:var(--green)}
-.lead{font-size:clamp(18px,2vw,22px);color:var(--muted);max-width:640px}
+.lead{font-size:clamp(18px,2vw,22px);color:var(--muted);max-width:640px;text-wrap:pretty}
 
 /* шапка */
 .nav{position:sticky;top:0;z-index:50;background:rgba(11,14,20,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
@@ -68,9 +68,10 @@ section{padding:96px 0}
 a.card:hover{border-color:var(--green);transform:translateY(-2px)}
 .card h3{margin:14px 0 8px}
 .card p{color:var(--muted);font-size:16px}
-.icon{width:44px;height:44px;border-radius:12px;background:rgba(0,210,106,.12);color:var(--green);display:grid;place-items:center;font-size:22px}
-.sec-head{max-width:760px;margin-bottom:48px}
-.sec-head .lead{margin-top:16px}
+.icon{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;color:#5dffa8;background:linear-gradient(145deg,rgba(0,210,106,.22),rgba(0,210,106,.03) 70%);border:1px solid rgba(0,210,106,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,210,106,.12);margin-bottom:6px}
+.icon svg{width:27px;height:27px;filter:drop-shadow(0 0 6px rgba(0,210,106,.45))}
+.sec-head{margin-bottom:48px}
+.sec-head .lead{margin-top:16px;max-width:none}
 
 /* шаги */
 .steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
@@ -164,7 +165,7 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .cta::after{background:#2962ff;bottom:-220px;right:-120px;animation-delay:-7s}
 @keyframes drift{to{transform:translate(120px,60px) scale(1.2)}}
 .icon{transition:.3s}
-.card:hover .icon{transform:scale(1.1) rotate(-6deg);background:rgba(0,210,106,.22)}
+.card:hover .icon{transform:translateY(-3px);border-color:rgba(0,210,106,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 12px 30px rgba(0,210,106,.25)}
 @media (max-width:960px){.toast.t1{left:0}.toast.t2{right:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.chart .bar{transform:none}}
 
@@ -203,3 +204,4 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .rv:hover{border-color:var(--green);transform:translateY(-2px)}
 .rv img{display:block;width:100%;height:auto}
 .rv span{position:absolute;right:8px;bottom:8px;background:rgba(11,14,20,.8);color:var(--muted);font-size:12px;padding:3px 8px;border-radius:999px}
+.flow .brk{fill:var(--green);text-decoration:underline}
