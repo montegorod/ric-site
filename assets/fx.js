@@ -80,6 +80,7 @@
 (function () {
   var ru = document.documentElement.lang === 'ru', B = document.body;
   var page = (document.title.split('—')[0] || '').trim() || location.pathname;
+  if (/^Reliable/.test(page)) page = ru ? 'Главная' : 'Home';
   // 1. Кнопки «Написать» сразу подставляют текст с пометкой страницы
   var txt = ru ? 'Здравствуйте! Интересует SmartStrike. (с сайта: ' + page + ')'
                : 'Hello! I am interested in SmartStrike. (from website: ' + page + ')';
