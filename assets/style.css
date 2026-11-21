@@ -238,3 +238,12 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
   .lang{margin-left:auto}
   .burger{display:block}
 }
+/* статьи */
+.art-h1{font-size:clamp(32px,4.5vw,52px);margin-top:14px}
+.art{max-width:760px;font-size:18px;line-height:1.7}
+.art p{margin:0 0 18px;color:#c9ced8}
+.art h2{font-size:26px;margin:38px 0 14px}
+.art b{color:var(--text)}
+.art i{color:var(--muted);font-size:15px}
+.art-list{margin:0 0 18px 22px;color:#c9ced8}
+.art-list li{margin-bottom:8px}

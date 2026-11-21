@@ -154,16 +154,14 @@
     w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
       '<div class="kicker">' + (ru ? 'Подождите' : 'Before you go') + '</div>' +
       '<h3>' + (ru ? 'Заберите бесплатно' : 'Take these for free') + '</h3>' +
-      '<div class="exit-card"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Выберите язык, и PDF скачается:' : 'Free, no sign-up. Choose a language and the PDF downloads:') + '</span>' +
-      '<div class="exit-dl"><a href="' + (ru ? B.dataset.guideRu : B.dataset.guideEn) + '" download>' + (ru ? 'Русский' : 'English') + '</a>' +
-      '<a href="' + (ru ? B.dataset.guideEn : B.dataset.guideRu) + '" download>' + (ru ? 'English' : 'Russian') + '</a></div></div>' +
+      '<a class="exit-card" href="' + guide + '" download><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : 'Free, no sign-up. Click and the PDF downloads') + '</span></a>' +
       '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Итоги каждой недели, разборы рынка' : 'Weekly results and market reviews') + '</span></a>' +
       '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : 'No, thanks') + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.querySelector('.exit-skip').onclick = close;
     w.onclick = function (e) { if (e.target === w) close(); };
-    w.querySelectorAll('.exit-card, .exit-dl a').forEach(function (a) { if (a.tagName === 'A') a.addEventListener('click', function () { setTimeout(close, 200); }); });
+    w.querySelectorAll('.exit-card').forEach(function (a) { a.addEventListener('click', function () { setTimeout(close, 200); }); });
   }
   document.addEventListener('mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 5 && Date.now() - t0 > 5000) show(); });
   if (matchMedia('(hover: none)').matches) setTimeout(show, 40000);
