@@ -189,3 +189,11 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .exit-card b{display:block;font-size:17px;margin-bottom:4px}
 .exit-card span{color:var(--muted);font-size:14px}
 .exit-skip{display:block;text-align:center;color:var(--muted);font-size:14px;margin-top:6px}
+/* WhatsApp */
+.btn-wa{border-color:rgba(37,211,102,.55);color:#25d366}
+.btn-wa:hover{background:rgba(37,211,102,.1);border-color:#25d366}
+.contact-wrap{position:relative;display:inline-block}
+.contact-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px;min-width:170px;z-index:60;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.contact-wrap.open .contact-menu{display:block}
+.contact-menu a{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;color:var(--text);font-weight:600}
+.contact-menu a:hover{background:rgba(0,210,106,.08);color:var(--green)}

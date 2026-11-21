@@ -84,6 +84,25 @@
   var txt = ru ? 'Здравствуйте! Интересует SmartStrike. (с сайта: ' + page + ')'
                : 'Hello! I am interested in SmartStrike. (from website: ' + page + ')';
   document.querySelectorAll('a[href="https://t.me/ricfxa"]').forEach(function (a) { a.href += '?text=' + encodeURIComponent(txt); });
+  // WhatsApp: кнопка рядом с каждой большой кнопкой Telegram, в шапке — выбор из двух
+  var wa = B.dataset.wa;
+  if (wa) {
+    var waHref = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(txt);
+    var ico = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3z"/></svg>';
+    document.querySelectorAll('a.btn[href^="https://t.me/ricfxa"]').forEach(function (a) {
+      if (a.classList.contains('btn-sm')) {
+        var m = document.createElement('div'); m.className = 'contact-menu';
+        m.innerHTML = '<a href="' + a.href + '" target="_blank" rel="noopener">Telegram</a><a href="' + waHref + '" target="_blank" rel="noopener">' + ico + ' WhatsApp</a>';
+        var w = document.createElement('span'); w.className = 'contact-wrap'; a.parentNode.insertBefore(w, a); w.append(a, m);
+        a.addEventListener('click', function (e) { e.preventDefault(); w.classList.toggle('open'); });
+        document.addEventListener('click', function (e) { if (!w.contains(e.target)) w.classList.remove('open'); });
+      } else {
+        var b = document.createElement('a'); b.className = 'btn btn-wa'; b.href = waHref; b.target = '_blank'; b.rel = 'noopener';
+        b.innerHTML = ico + ' WhatsApp'; a.after(b);
+      }
+    });
+    document.querySelectorAll('a[href="https://wa.me/' + wa + '"]').forEach(function (a) { a.href = waHref; });
+  }
   // 2. Учёт кликов по ссылкам наружу (работает, когда включён счётчик GoatCounter)
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="http"]');
