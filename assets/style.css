@@ -146,7 +146,7 @@ section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-
 .toast i{font-style:normal;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(0,210,106,.15);color:var(--green)}
 .toast small{display:block;color:var(--muted);font-weight:500;font-size:12px}
 .toast.t1{top:-40px;left:-34px}
-.toast.t2{bottom:-74px;right:-28px;animation-delay:-3s}
+.toast.t2{bottom:-50px;right:-28px;animation-delay:-3s}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 /* схема копирования */
 .flow{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:36px;overflow:hidden}
