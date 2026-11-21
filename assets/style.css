@@ -260,3 +260,4 @@ section[id]{scroll-margin-top:80px}
 .badge.b-std{background:rgba(245,194,66,.15);color:#f5c242}
 .logo svg{flex-shrink:0}
 @media (max-width:420px){.logo .wm{font-size:11px;letter-spacing:.1em}.logo small{letter-spacing:.3em}.nav .wrap{gap:12px}}
+.demo-pill b{white-space:nowrap;flex-shrink:0}
