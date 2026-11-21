@@ -125,9 +125,13 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--muted);f
 /* ---------- анимации и графика ---------- */
 .hero{position:relative;overflow:hidden}
 .hero>.wrap{position:relative;z-index:1}
-.bg-chart{position:absolute;inset:0;z-index:0;opacity:.5;pointer-events:none;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 35%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 35%,#000 100%)}
-.hero::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(11,14,20,0) 60%,var(--bg) 100%)}
+.bg-chart{position:fixed;inset:0;z-index:0;opacity:.22;pointer-events:none}
+main,footer{position:relative;z-index:1}
+footer{background:rgba(11,14,20,.85)}
+.hero{background:radial-gradient(900px 500px at 85% 10%,rgba(41,98,255,.12),transparent 60%),radial-gradient(700px 400px at 10% 90%,rgba(0,210,106,.07),transparent 60%)}
+section[style*="var(--panel)"]{background:rgba(19,23,34,.72)!important;backdrop-filter:blur(2px)}
+.panel,.card,.table-wrap,.flow{background:rgba(19,23,34,.82);backdrop-filter:blur(6px)}
+.ticker{background:rgba(19,23,34,.85)}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
 .g4>.reveal:nth-child(2),.steps>.reveal:nth-child(2),.g3>.reveal:nth-child(2),.g2>.reveal:nth-child(2){transition-delay:.1s}

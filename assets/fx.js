@@ -4,7 +4,7 @@
 
   // 1. Фоновый свечной график
   function liveChart(host) {
-    var c = document.createElement('canvas'); c.className = 'bg-chart'; host.prepend(c);
+    var c = document.createElement('canvas'); c.className = 'bg-chart'; document.body.prepend(c);
     var ctx = c.getContext('2d'), W, H, dpr = Math.min(window.devicePixelRatio || 1, 2);
     var cw = 14, candles = [], price = 100, offset = 0;
     function newCandle() {
@@ -13,7 +13,7 @@
       price = cl; return { o: o, c: cl, h: hi, l: lo };
     }
     function size() {
-      W = host.clientWidth; H = host.clientHeight;
+      W = window.innerWidth; H = window.innerHeight;
       c.width = W * dpr; c.height = H * dpr; c.style.width = W + 'px'; c.style.height = H + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       while (candles.length < W / cw + 4) candles.push(newCandle());
@@ -63,7 +63,7 @@
     size(); draw(); window.addEventListener('resize', function () { size(); draw(); });
     if (!reduce) requestAnimationFrame(tick);
   }
-  document.querySelectorAll('.hero').forEach(liveChart);
+  liveChart();
 
   // 2. Появление блоков и рост столбиков при прокрутке
   var els = document.querySelectorAll('.card,.step,.panel,.sec-head,.flow,.cta,.table-wrap,.note');
