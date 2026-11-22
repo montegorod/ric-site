@@ -355,15 +355,3 @@ a.card.tool{border-color:rgba(0,210,106,.45)}
 .globe-tag.hub{font-size:16px;font-weight:800;color:#03130a;background:#25e083}
 @media (max-width:960px){.hero-visual.with-globe3d{width:100%;max-width:560px;margin:0 auto;justify-self:center}}
 @media (max-width:600px){.hero-visual.with-globe3d{width:122%;max-width:none;margin:0 -11% -24px;justify-self:start}.globe-tag{font-size:12px;padding:5px 9px}.globe-tag.hub{font-size:13px}}
-
-/* живой телефон SmartStrike */
-.hero-visual.with-phone{min-width:0;width:116%;margin:-36px -8%;aspect-ratio:1}
-.with-phone .poster,.with-phone canvas{position:absolute;inset:0;display:block;width:100%;height:100%;-webkit-mask-image:radial-gradient(closest-side,#000 88%,transparent 100%);mask-image:radial-gradient(closest-side,#000 88%,transparent 100%);-webkit-mask-size:118% 118%;mask-size:118% 118%;-webkit-mask-position:center;mask-position:center}
-.with-phone .poster{object-fit:contain}
-.with-phone canvas{opacity:0}
-.with-phone canvas.ready{opacity:1}
-.with-phone canvas.ready~.poster{visibility:hidden}
-.ss-terms{padding-top:24px}
-.ss-terms .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px}
-@media (max-width:960px){.hero-visual.with-phone{width:100%;max-width:520px;margin:0 auto;justify-self:center}}
-@media (max-width:700px){.ss-terms .list{grid-template-columns:minmax(0,1fr)}}
