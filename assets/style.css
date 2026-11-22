@@ -261,3 +261,53 @@ section[id]{scroll-margin-top:80px}
 .logo svg{flex-shrink:0}
 @media (max-width:420px){.logo .wm{font-size:11px;letter-spacing:.1em}.logo small{letter-spacing:.3em}.nav .wrap{gap:12px}}
 .demo-pill b{white-space:nowrap;flex-shrink:0}
+/* схема SmartStrike на телефоне: вертикальная, крупные надписи */
+.flow .flow-m{display:none}
+.flow .fm-ss{font-size:36px;font-weight:800;fill:#3ee68c}
+.flow .fm-t{font-size:18px;font-weight:700}
+.flow .fm-b{font-size:22px;font-weight:700;fill:var(--green)}
+.flow .fm-s{font-size:17px;fill:var(--muted)}
+.flow .fm-go{font-size:16px;font-weight:700;fill:var(--green);text-decoration:underline}
+.flow .node.main{stroke:#2962ff;stroke-width:2}
+.flow .node.tap{stroke:rgba(0,210,106,.6)}
+@media (max-width:960px){
+  .flow{padding:20px 10px}
+  .flow .flow-d{display:none}
+  .flow .flow-m{display:block;max-width:420px;margin:0 auto}
+}
+/* график результатов на телефоне */
+.chart-m{display:none;width:100%;height:auto}
+.chart-m text{fill:var(--muted);font-size:16px;font-family:Jost,sans-serif}
+.chart-m text.v{fill:var(--text);font-weight:700}
+@media (max-width:600px){
+  svg.chart{display:none}
+  svg.chart-m{display:block;margin-top:14px}
+}
+/* маленькие телефоны: шапка целиком в экране */
+@media (max-width:359px){
+  .nav .wrap{gap:8px;padding:0 12px}
+  .nav .logo{gap:7px}
+  .nav .logo svg{width:32px;height:32px}
+  .nav .logo .wm{font-size:9.5px;letter-spacing:.06em}
+  .nav .logo small{font-size:8px;letter-spacing:.2em}
+  .nav .lang{padding:5px 8px;font-size:13px}
+}
+/* маленькие телефоны: длинные кнопки и слова не распирают страницу */
+@media (max-width:420px){
+  .btn{white-space:normal;max-width:100%;text-align:center;justify-content:center}
+  .btn svg{flex-shrink:0}
+  .hero-grid>*,.demo-box>*,.grid>*{min-width:0}
+  h1,h2,h3{overflow-wrap:break-word}
+}
+@media (max-width:359px){
+  main h1{font-size:34px}
+  main h2{font-size:26px}
+  .btn{padding:13px 18px}
+  .panel{padding:20px 14px}
+  .flow{padding:14px 5px}
+  .chart-m text{font-size:17px}
+  .table th,.table td{padding-left:8px;padding-right:8px}
+}
+@media (max-width:359px){main{overflow-wrap:anywhere}.dg,.dg-old{padding-left:12px;padding-right:12px}}
+@media (max-width:359px){main .table{overflow-wrap:normal}}
+.table .btn{white-space:nowrap;max-width:none}
