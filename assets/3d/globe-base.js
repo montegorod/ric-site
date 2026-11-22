@@ -46,7 +46,7 @@ export function stage(canvas, { fov = 38, disc, bloom = 0.48, threshold = 0.4, r
     K.value = h * ratio * 1.6 * Math.tan(THREE.MathUtils.degToRad(17)) / Math.tan(THREE.MathUtils.degToRad(fov / 2));
   };
   size();
-  return { scene, camera, size, render: () => composer.render() };
+  return { renderer, scene, camera, size, render: () => composer.render() };
 }
 
 export function points(pos, col, size) {

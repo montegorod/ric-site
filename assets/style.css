@@ -367,3 +367,15 @@ a.card.tool{border-color:rgba(0,210,106,.45)}
 .ss-terms .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px}
 @media (max-width:960px){.hero-visual.with-phone{width:100%;max-width:520px;margin:0 auto;justify-self:center}}
 @media (max-width:700px){.ss-terms .list{grid-template-columns:minmax(0,1fr)}}
+
+/* объёмный график «Результатов» */
+.hero-visual.with-market{position:relative;min-width:0;width:130%;margin:-30px -15%;aspect-ratio:1.2;pointer-events:none}
+.with-market .poster,.with-market canvas{position:absolute;inset:0;display:block;width:100%;height:100%;-webkit-mask-image:radial-gradient(ellipse closest-side,#000 70%,transparent 100%);mask-image:radial-gradient(ellipse closest-side,#000 70%,transparent 100%)}
+.with-market .poster{object-fit:contain}
+.with-market canvas{opacity:0}
+.with-market canvas.ready{opacity:1}
+.with-market canvas.ready~.poster{visibility:hidden}
+.scene-note{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);white-space:nowrap;color:var(--muted);font-size:13px}
+@media (min-width:961px){.results-hero h1{font-size:clamp(40px,4.4vw,58px)}}
+@media (max-width:960px){.hero-visual.with-market{width:100%;max-width:560px;margin:0 auto;justify-self:center}}
+@media (max-width:600px){.hero-visual.with-market{width:116%;max-width:none;margin:0 -8%;justify-self:start}.scene-note{font-size:12px}}
