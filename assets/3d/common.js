@@ -80,8 +80,9 @@ export function play(canvas, st, frame, { seconds = 12, still = 9.4, start = 1.6
   const FPS = LIGHT ? 24 : 30;
   let seen = true, raf = 0, last = 0, t = REDUCE ? still : start;
   // слабая машина: два замера подряд ниже 14 к/с, и вместо анимации остаётся картинка
-  let slow = false, warm = 0, from = 0, count = 0, strikes = 0;
+  let slow = false, judged = false, warm = 0, from = 0, count = 0, strikes = 0;
   const tooSlow = (now) => {
+    if (judged) return false;
     if (!warm) warm = now + 1500;
     if (now < warm) return false;
     if (!from) { from = now; count = 0; return false; }
@@ -98,8 +99,17 @@ export function play(canvas, st, frame, { seconds = 12, still = 9.4, start = 1.6
     if (last) t += Math.min(0.1, (now - last) / 1000);
     last = now;
     if (tooSlow(now)) {
-      slow = true; cancelAnimationFrame(raf); raf = 0;
-      canvas.classList.remove('ready'); canvas.dataset.slow = 'fps';
+      slow = judged = true; cancelAnimationFrame(raf); raf = 0;
+      // замираем на 1,5 с (кадр остаётся на месте): странице легче — виновата сцена, остаётся картинка;
+      // не легче — тормозит сам браузер, сцену продолжаем
+      let first = 0, n = 0;
+      const trial = (at) => {
+        if (!first) first = at; else n++;
+        if (at - first < 1500) { requestAnimationFrame(trial); return; }
+        if (n / ((at - first) / 1000) >= 25) { canvas.classList.remove('ready'); canvas.dataset.slow = 'fps'; }
+        else { slow = false; canvas.dataset.slow = 'browser'; state(); }
+      };
+      requestAnimationFrame(trial);
       return;
     }
     draw();
