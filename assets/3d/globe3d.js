@@ -61,7 +61,7 @@ export default async function (canvas) {
   const normalShader = 'varying vec3 vN; varying vec3 vP; void main(){ vN = normalize(normalMatrix * normal); vec4 m = modelViewMatrix * vec4(position, 1.); vP = m.xyz; gl_Position = projectionMatrix * m; }';
   tilt.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.99, 96, 64), new THREE.ShaderMaterial({
     vertexShader: normalShader,
-    fragmentShader: 'varying vec3 vN; varying vec3 vP; void main(){ float f = pow(1. - abs(dot(normalize(vN), normalize(-vP))), 3.5); gl_FragColor = vec4(vec3(.002,.009,.012) + vec3(.0,.16,.12) * f, 1.); }',
+    fragmentShader: 'varying vec3 vN; varying vec3 vP; void main(){ float f = pow(clamp(1. - abs(dot(normalize(vN), normalize(-vP))), .00001, 1.), 3.5); gl_FragColor = vec4(vec3(.002,.009,.012) + vec3(.0,.16,.12) * f, 1.); }',
   })));
   tilt.add(new THREE.Mesh(new THREE.SphereGeometry(R * 1.13, 96, 64), new THREE.ShaderMaterial({
     side: THREE.BackSide, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexShader: normalShader,

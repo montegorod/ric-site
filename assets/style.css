@@ -355,3 +355,9 @@ a.card.tool{border-color:rgba(0,210,106,.45)}
 .globe-tag.hub{font-size:16px;font-weight:800;color:#03130a;background:#25e083}
 @media (max-width:960px){.hero-visual.with-globe3d{width:100%;max-width:560px;margin:0 auto;justify-self:center}}
 @media (max-width:600px){.hero-visual.with-globe3d{width:122%;max-width:none;margin:0 -11% -24px;justify-self:start}.globe-tag{font-size:12px;padding:5px 9px}.globe-tag.hub{font-size:13px}}
+
+/* меню прокручивается, если не помещается (телефон боком) */
+@media (max-width:960px){.menu.open{max-height:calc(100vh - 68px);max-height:calc(100dvh - 68px);flex-wrap:nowrap;justify-content:flex-start;overflow-y:auto;overscroll-behavior:contain}.menu.open>*{flex-shrink:0}}
+/* остановленная сцена: остаётся картинка, подписи спрятаны */
+.with-globe3d canvas:not(.ready)~.globe-tags{visibility:hidden}
+.rv img{height:auto}

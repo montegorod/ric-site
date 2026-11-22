@@ -79,25 +79,42 @@ export function dust(n, box, color = C.green, seed = 7, size = 0.025) {
 export function play(canvas, st, frame, { seconds = 12, still = 9.4, start = 1.6 } = {}) {
   const FPS = LIGHT ? 24 : 30;
   let seen = true, raf = 0, last = 0, t = REDUCE ? still : start;
+  // слабая машина: два замера подряд ниже 14 к/с, и вместо анимации остаётся картинка
+  let slow = false, warm = 0, from = 0, count = 0, strikes = 0;
+  const tooSlow = (now) => {
+    if (!warm) warm = now + 1500;
+    if (now < warm) return false;
+    if (!from) { from = now; count = 0; return false; }
+    count++;
+    if (now - from < 2000) return false;
+    strikes = count / ((now - from) / 1000) < 14 ? strikes + 1 : 0;
+    from = now; count = 0;
+    return strikes >= 2;
+  };
   const draw = () => frame((t % seconds) / seconds);
   const tick = (now) => {
     raf = requestAnimationFrame(tick);
     if (now - last < 1000 / FPS - 4) return;
     if (last) t += Math.min(0.1, (now - last) / 1000);
     last = now;
+    if (tooSlow(now)) {
+      slow = true; cancelAnimationFrame(raf); raf = 0;
+      canvas.classList.remove('ready'); canvas.dataset.slow = 'fps';
+      return;
+    }
     draw();
     canvas.dataset.frames = (+canvas.dataset.frames || 0) + 1;
   };
   const state = () => {
-    const on = seen && !document.hidden && !REDUCE;
-    if (on && !raf) { last = 0; raf = requestAnimationFrame(tick); }
+    const on = seen && !document.hidden && !REDUCE && !slow;
+    if (on && !raf) { last = warm = from = 0; raf = requestAnimationFrame(tick); }
     if (!on && raf) { cancelAnimationFrame(raf); raf = 0; }
   };
   new IntersectionObserver((e) => { seen = e[e.length - 1].isIntersecting; state(); }).observe(canvas);
-  new ResizeObserver(() => { st.size(); draw(); }).observe(canvas);
+  new ResizeObserver(() => { if (slow) return; st.size(); draw(); }).observe(canvas);
   document.addEventListener('visibilitychange', state);
   canvas.addEventListener('webglcontextlost', () => canvas.classList.remove('ready'));
-  canvas.addEventListener('webglcontextrestored', () => canvas.classList.add('ready'));
+  canvas.addEventListener('webglcontextrestored', () => { if (!slow) canvas.classList.add('ready'); });
   draw();
   canvas.classList.add('ready');
   state();
