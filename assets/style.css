@@ -341,3 +341,12 @@ a.card.tool{border-color:rgba(0,210,106,.45)}
 .soon-tag{padding:6px 12px;border-radius:14px;background:rgba(245,194,66,.14);color:#f5c242;font-size:13px;font-weight:700}
 .tool-one{max-width:640px}
 .tools-all{display:inline-block;margin-top:18px;font-weight:700}
+
+/* живой глобус главной */
+.hero-visual.with-globe{width:100%;max-width:540px;min-width:0;justify-self:center;aspect-ratio:1}
+.hero-visual canvas.globe{display:block;width:100%;height:100%}
+.with-globe .toast.t1{top:3%;bottom:auto;left:0;right:auto}
+.with-globe .toast.t2{top:auto;bottom:3%;left:auto;right:0}
+.home-results .panel{max-width:820px;margin:0 auto}
+@media (max-width:960px){.hero-visual.with-globe{max-width:420px}}
+@media (max-width:600px){.hero-visual.with-globe{max-width:340px;aspect-ratio:auto;height:auto;padding:58px 0}.hero-visual.with-globe canvas.globe{height:auto;aspect-ratio:1}.with-globe .toast.t1{top:0}.with-globe .toast.t2{bottom:0}}
