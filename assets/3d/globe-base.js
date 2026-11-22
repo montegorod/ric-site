@@ -56,11 +56,11 @@ export function points(pos, col, size) {
   g.setAttribute('size', new THREE.Float32BufferAttribute(size, 1));
   const p = new THREE.Points(g, new THREE.ShaderMaterial({
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-    uniforms: { k: K, opacity: { value: 1 } },
+    uniforms: { k: K },
     vertexShader: `attribute float size; attribute vec3 color; varying vec3 vC; uniform float k;
       void main(){ vC = color; vec4 mv = modelViewMatrix * vec4(position, 1.); gl_PointSize = max(1.2, size * k / -mv.z); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `varying vec3 vC; uniform float opacity;
-      void main(){ float d = length(gl_PointCoord - .5) * 2.; float a = 1. - smoothstep(.25, 1., d); gl_FragColor = vec4(vC, a * opacity); }`,
+    fragmentShader: `varying vec3 vC;
+      void main(){ float d = length(gl_PointCoord - .5) * 2.; float a = 1. - smoothstep(.25, 1., d); gl_FragColor = vec4(vC, a); }`,
   }));
   p.frustumCulled = false;
   return p;
