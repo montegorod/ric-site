@@ -16,3 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
+Sitemap: https://ricforex.com/sitemap.xml
