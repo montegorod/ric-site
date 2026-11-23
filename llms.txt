@@ -1,0 +1,25 @@
+# Reliable Investments Company (ricforex.com)
+
+> Forex and gold (XAUUSD) copy trading. Our team's algorithmic system SmartStrike trades mainly gold; its trades are copied automatically to the client's own broker account (MetaTrader). The money stays in the client's account — we have no access to deposits or withdrawals. Fee: 50% of profit only, settled weekly; after a loss the fee resumes only once the account is back at its previous high. Every trade has a stop-loss. Three risk models. 14-day free demo. Clients from any country, including the USA. Sites in Russian and English.
+
+## Main pages
+- [Home (EN)](https://ricforex.com/en/index.html) · [Главная (RU)](https://ricforex.com/ru/index.html)
+- [SmartStrike: how gold copy trading works, terms, risk models](https://ricforex.com/en/smartstrike.html) · [RU](https://ricforex.com/ru/smartstrike.html)
+- [Monthly results and live account monitor](https://ricforex.com/en/results.html) · [RU](https://ricforex.com/ru/results.html)
+- [Client reviews since 2022](https://ricforex.com/en/reviews.html) · [RU](https://ricforex.com/ru/reviews.html)
+- [Free gold (XAUUSD) signals on Telegram](https://ricforex.com/en/signals.html) · [RU](https://ricforex.com/ru/signals.html)
+- [Weekly market outlook: gold, dollar, bitcoin](https://ricforex.com/en/digest.html) · [RU](https://ricforex.com/ru/digest.html)
+- [Brokers we tested ourselves](https://ricforex.com/en/brokers.html) · [RU](https://ricforex.com/ru/brokers.html)
+- [Free technical analysis guide and articles](https://ricforex.com/en/learn.html) · [RU](https://ricforex.com/ru/learn.html)
+
+## Articles
+- [What is copy trading and how does it work?](https://ricforex.com/en/article-copy-trading.html) · [RU](https://ricforex.com/ru/article-copy-trading.html)
+- [Copy trading reviews and scams: how to check a trader before you connect](https://ricforex.com/en/article-copy-trading-scams.html) · [RU](https://ricforex.com/ru/article-copy-trading-scams.html)
+- [How much can you make with copy trading? An honest calculation and the risks](https://ricforex.com/en/article-copy-trading-income.html) · [RU](https://ricforex.com/ru/article-copy-trading-income.html)
+- [Gold copy trading (XAUUSD): how it works and why gold](https://ricforex.com/en/article-gold-copy-trading.html) · [RU](https://ricforex.com/ru/article-gold-copy-trading.html)
+- [PAMM account, copy trading or a managed account: which to choose](https://ricforex.com/en/article-pamm-vs-copy-trading.html) · [RU](https://ricforex.com/ru/article-pamm-vs-copy-trading.html)
+- [Gold signals or copy trading: which suits you](https://ricforex.com/en/article-signals-vs-copy-trading.html) · [RU](https://ricforex.com/ru/article-signals-vs-copy-trading.html)
+- [What a drawdown means for your money — in plain language](https://ricforex.com/en/article-drawdown-for-investors.html) · [RU](https://ricforex.com/ru/article-drawdown-for-investors.html)
+- [Commission out of profit only: why it is rare and how to verify it](https://ricforex.com/en/article-fee-from-profit-only.html) · [RU](https://ricforex.com/ru/article-fee-from-profit-only.html)
+- [Fixed risk per trade: why it matters more than the return percentage](https://ricforex.com/en/article-fixed-risk.html) · [RU](https://ricforex.com/ru/article-fixed-risk.html)
+- [How to read a trading drawdown, and when it is normal](https://ricforex.com/en/article-drawdown.html) · [RU](https://ricforex.com/ru/article-drawdown.html)
