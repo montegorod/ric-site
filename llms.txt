@@ -19,6 +19,7 @@
 - [Gold copy trading (XAUUSD): how it works and why gold](https://ricforex.com/en/article-gold-copy-trading.html) · [RU](https://ricforex.com/ru/article-gold-copy-trading.html)
 - [PAMM account, copy trading or a managed account: which to choose](https://ricforex.com/en/article-pamm-vs-copy-trading.html) · [RU](https://ricforex.com/ru/article-pamm-vs-copy-trading.html)
 - [Gold signals or copy trading: which suits you](https://ricforex.com/en/article-signals-vs-copy-trading.html) · [RU](https://ricforex.com/ru/article-signals-vs-copy-trading.html)
+- [Gold trading robot: an EA in your terminal or copy trading — what's the difference](https://ricforex.com/en/article-trading-robot.html) · [RU](https://ricforex.com/ru/article-trading-robot.html)
 - [What a drawdown means for your money — in plain language](https://ricforex.com/en/article-drawdown-for-investors.html) · [RU](https://ricforex.com/ru/article-drawdown-for-investors.html)
 - [Commission out of profit only: why it is rare and how to verify it](https://ricforex.com/en/article-fee-from-profit-only.html) · [RU](https://ricforex.com/ru/article-fee-from-profit-only.html)
 - [Fixed risk per trade: why it matters more than the return percentage](https://ricforex.com/en/article-fixed-risk.html) · [RU](https://ricforex.com/ru/article-fixed-risk.html)
