@@ -112,13 +112,29 @@
     document.querySelectorAll('a[href="https://wa.me/' + wa + '"]').forEach(function (a) { a.href = waHref; });
   }
   // 2. Учёт кликов по ссылкам наружу (работает, когда включён счётчик GoatCounter)
-  document.addEventListener('click', function (e) {
+  var gcEv = function (path, title) { if (window.goatcounter && goatcounter.count) goatcounter.count({ path: path, title: title || '', event: true }); };
+  var outClick = function (e) {  // левый клик и клик колёсиком (открыть в новой вкладке)
     var a = e.target.closest && e.target.closest('a[href^="http"]');
-    if (a && window.goatcounter && goatcounter.count) {
-      var h = a.href.split('?')[0].replace(/^https?:\/\//, '');
-      goatcounter.count({ path: 'click: ' + h + ' | ' + location.pathname, title: a.textContent.trim(), event: true });
-    }
+    if (a) gcEv('click: ' + a.href.split('?')[0].replace(/^https?:\/\//, '') + ' | ' + location.pathname, a.textContent.trim());
+  };
+  document.addEventListener('click', outClick);
+  document.addEventListener('auxclick', function (e) { if (e.button === 1) outClick(e); });
+  // 3. Действия на сайте (Игорь 23.11: собирать максимум статистики)
+  document.addEventListener('click', function (e) {
+    var l = e.target.closest && e.target.closest('a.lang');
+    if (l) gcEv('lang: ' + l.textContent.trim() + ' | ' + location.pathname);
+    var d = e.target.closest && e.target.closest('a[href*="#demo"]');
+    if (d) gcEv('demo-button | ' + location.pathname, d.textContent.trim());
   });
+  document.addEventListener('toggle', function (e) {  // открыли вопрос, архив дайджеста и т.п.
+    var t = e.target;
+    if (t.tagName === 'DETAILS' && t.open) { var s = t.querySelector('summary'); gcEv('open: ' + location.pathname, s ? s.textContent.trim().slice(0, 80) : ''); }
+  }, true);
+  var depth = {};  // дочитал ли страницу: 50% и 90%
+  window.addEventListener('scroll', function () {
+    var h = document.documentElement, p = (h.scrollTop + innerHeight) / h.scrollHeight;
+    [50, 90].forEach(function (m) { if (p >= m / 100 && !depth[m]) { depth[m] = 1; gcEv('scroll ' + m + '% | ' + location.pathname); } });
+  }, { passive: true });
   // Окно перед переходом на живой мониторинг: что именно там показано
   var mon = B.dataset.mon;
   if (mon) document.addEventListener('click', function (e) {
