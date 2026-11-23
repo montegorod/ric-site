@@ -79,7 +79,7 @@
 // Воронка: готовый текст сообщения Игорю, учёт кликов, окно при уходе.
 (function () {
   var ru = document.documentElement.lang === 'ru', B = document.body;
-  var page = (document.title.split('—')[0] || '').trim() || location.pathname;
+  var page = B.dataset.page || (document.title.split('—')[0] || '').trim() || location.pathname;  // короткое имя страницы (data-page из build.py)
   if (/^Reliable/.test(page)) page = ru ? 'Главная' : 'Home';
   // 1. Кнопки «Написать» сразу подставляют текст с пометкой страницы
   var txt = ru ? 'Здравствуйте! Интересует SmartStrike. (с сайта: ' + page + ')'
