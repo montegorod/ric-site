@@ -375,3 +375,11 @@ a.card.tool{border-color:rgba(0,210,106,.45)}
 .ss-terms .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px}
 @media (max-width:960px){.hero-visual.with-phone{width:100%;max-width:520px;margin:0 auto;justify-self:center}}
 @media (max-width:700px){.ss-terms .list{grid-template-columns:minmax(0,1fr)}}
+
+/* Компактный блок «Наши каналы и полезное» на главной (Игорь, 25.11.2026: без громоздких карточек) */
+.chips-block{display:grid;gap:18px}
+.chips-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.chips-t{flex:0 0 150px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);color:var(--text);font-weight:600;font-size:15px;text-decoration:none;transition:border-color .15s,color .15s}
+.chip:hover{border-color:var(--green);color:var(--green)}
+@media (max-width:640px){.chips-t{flex-basis:100%}}
