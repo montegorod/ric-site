@@ -188,13 +188,22 @@
       '<div class="kicker">' + (ru ? 'Подождите' : 'Before you go') + '</div>' +
       '<h3>' + (ru ? 'Заберите бесплатно' : 'Take these for free') + '</h3>' +
       '<a class="exit-card" href="' + guide + '" download><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : 'Free, no sign-up. Click and the PDF downloads') + '</span></a>' +
-      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Итоги каждой недели, разборы рынка' : 'Weekly results and market reviews') + '</span></a>' +
+      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : 'Daily results, weekly summaries, market reviews') + '</span></a>' +
+      // остальное бесплатное — маленькими кнопками (Игорь, 25.11.2026)
+      '<div class="exit-chips">' + [
+        ['🥇', ru ? 'Сигналы по золоту' : 'Gold signals', 'https://t.me/RICsignalsFREE'],
+        ['📡', ru ? 'Окна риска новостей' : 'News risk windows', 'radar.html'],
+        ['🏦', ru ? 'Рейтинг брокеров' : 'Broker rating', 'brokers.html'],
+        ['🗓', ru ? 'Дайджест недели' : 'Weekly digest', 'digest.html'],
+        ['🧰', ru ? 'Инструменты трейдера' : 'Trader tools', 'tools.html'],
+        ['⭐', ru ? 'Отзывы клиентов' : 'Client reviews', 'reviews.html']
+      ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '"' + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
       '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : 'No, thanks') + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.querySelector('.exit-skip').onclick = close;
     w.onclick = function (e) { if (e.target === w) close(); };
-    w.querySelectorAll('.exit-card').forEach(function (a) { a.addEventListener('click', function () { setTimeout(close, 200); }); });
+    w.querySelectorAll('.exit-card, .exit-card-mini').forEach(function (a) { a.addEventListener('click', function () { setTimeout(close, 200); }); });
   }
   document.addEventListener('mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 5 && Date.now() - t0 > 5000) show(); });
   if (matchMedia('(hover: none)').matches) setTimeout(show, 40000);
