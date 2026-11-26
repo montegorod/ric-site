@@ -78,27 +78,68 @@
 
 // Воронка: готовый текст сообщения Игорю, учёт кликов, окно при уходе.
 (function () {
-  var ru = document.documentElement.lang === 'ru', B = document.body;
-  var page = B.dataset.page || (document.title.split('—')[0] || '').trim() || location.pathname;  // короткое имя страницы (data-page из build.py)
+  var ru = document.documentElement.lang === 'ru', B = document.body, P = location.pathname;
+  var page = B.dataset.page || (document.title.split('—')[0] || '').trim() || P;  // короткое имя страницы (data-page из build.py)
   if (/^Reliable/.test(page)) page = ru ? 'Главная' : 'Home';
+  var mon = B.dataset.mon;
+
+  // 0. Откуда пришёл (первое касание, 26.11.2026): метки utm_source/utm_campaign или известный referrer.
+  // Запоминается на 30 дней (localStorage ric_ft) и дописывается ко ВСЕМ событиям: «click: t.me/ricfxa | /ru/results.html [src=tg-ru/results-20261126]».
+  // Прямой заход ничего не записывает: без [src] = прямой или неизвестный источник. Расшифровка: research/site-message-codes.md
+  var FT = 'ric_ft', ft = null;
+  var slug = function (s) { try { s = decodeURIComponent(s.replace(/\+/g, ' ')); } catch (e) {} return String(s).toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40); };
+  var get = function () { try { return localStorage.getItem(FT); } catch (e) { try { return sessionStorage.getItem(FT); } catch (e2) { return null; } } };
+  var put = function (v) { try { localStorage.setItem(FT, v); } catch (e) { try { sessionStorage.setItem(FT, v); } catch (e2) {} } };
+  function detect() {
+    var q = location.search.replace(/&amp;/gi, '&');  // посты Radar с ошибкой «&amp;amp;» в адресе
+    var us = slug((q.match(/[?&]utm_source=([^&#]*)/i) || [])[1] || ''), uc = slug((q.match(/[?&]utm_campaign=([^&#]*)/i) || [])[1] || '');
+    if (us || uc) return { s: us || 'utm', c: uc, k: 'u' };
+    var r = ((window.goatcounter && goatcounter.referrer) || document.referrer || '').toLowerCase();
+    var h = ((r.match(/^[a-z][a-z0-9+.-]*:\/\/([^\/:?#]+)/) || [])[1] || '').replace(/^www\./, '');
+    if (!h || /(^|\.)ricforex\.com$/.test(h) || h === 'localhost' || /^127\./.test(h)) return null;
+    var s = /(^|\.)t\.me$|telegram/.test(h) ? 'tg'
+          : /chatgpt|openai|perplexity|copilot|gemini|claude|deepseek/.test(h) ? 'ai-' + h
+          : /(^|\.)google\.|googlequicksearchbox/.test(h) ? 'google'
+          : /yandex|(^|\.)ya\.ru$/.test(h) ? 'yandex' : /(^|\.)bing\.com$/.test(h) ? 'bing'
+          : /duckduckgo|ecosia|yahoo|baidu|search\.brave|qwant|startpage|go\.mail\.ru|rambler/.test(h) ? 'search-' + h
+          : /scribd/.test(h) ? 'scribd' : /githubusercontent/.test(h) ? 'guide' : h;
+    return { s: slug(s), c: '', k: 'r' };
+  }
+  try { ft = JSON.parse(get() || 'null'); } catch (e) {}
+  if (!ft || typeof ft.s !== 'string' || !(Date.now() - ft.t < 30 * 864e5)) {
+    ft = detect();
+    if (ft) { ft.t = Date.now(); put(JSON.stringify(ft)); }
+  }
+  var SRC = ft ? ' [src=' + ft.s + (ft.c ? '/' + ft.c : '') + ']' : '';
+
+  // События GoatCounter; клики до загрузки count.js ждут в очереди до 10 сек
+  var Q = [];
+  function flush(n) {
+    setTimeout(function () {
+      if (window.goatcounter && goatcounter.count) Q.splice(0).forEach(function (e) { goatcounter.count(e); });
+      else if (n < 20) flush(n + 1); else Q.length = 0;
+    }, 500);
+  }
+  function gcEv(path, title) {
+    var ev = { path: path + SRC, title: title || '', event: true };
+    if (window.goatcounter && goatcounter.count) goatcounter.count(ev);
+    else if (Q.push(ev) === 1) flush(0);
+  }
+
   // 1. Кнопки «Написать» сразу подставляют текст с пометкой страницы
-  // Код в конце: 2 цифры страницы (data-code) + 1 цифра источника захода на сайт (research/site-message-codes.md)
-  var src = '0';
-  try {
-    src = sessionStorage.getItem('ric_src') || '';
-    if (!src) {
-      var q = location.search.toLowerCase(), r = ((window.goatcounter && goatcounter.referrer) || document.referrer || '').toLowerCase();
-      if (/ricforex\.com/.test(r)) r = '';
-      var us = (q.match(/utm_source=([^&]+)/) || [])[1] || '';
-      src = /^tg|telegram/.test(us) || /t\.me|telegram/.test(r) ? '5'
-          : /guide|scribd/.test(us) || /scribd|githubusercontent/.test(r) ? '6'
-          : /chatgpt|openai|perplexity|copilot|gemini|claude/.test(r) ? '4'
-          : /google\./.test(r) ? '1' : /yandex|ya\.ru/.test(r) ? '2' : /bing\./.test(r) ? '3'
-          : us || r ? '7' : '0';
-      sessionStorage.setItem('ric_src', src);
-    }
-  } catch (e) {}
-  var code = (B.dataset.code || '99') + src;
+  // Код в конце: 2 цифры страницы (data-code) + 2 цифры источника первого захода (research/site-message-codes.md), например 0311
+  function srcCode(f) {
+    if (!f) return '00';
+    var s = f.s, T = [
+      [/^tg-ru(-|$)/, '11'], [/^tg-en(-|$)/, '12'], [/^tg-free/, '13'], [/^tg-vip/, '14'], [/^tg-radar-ru/, '15'], [/^tg-radar/, '16'],
+      [/^tg-chat/, '17'], [/^tg-reviews/, '18'], [/^ricfxa/, '19'], [/^(tg|telegram)/, '10'],
+      [/^guide/, '20'], [/^scribd/, '21'], [/^github/, '22'], [/^fxa-docs/, '23'],
+      [/^blog/, '30'], [/^wa(-|$)|whatsapp/, '31'],
+      [/^google/, '01'], [/^yandex/, '02'], [/^bing/, '03'], [/^search/, '04'], [/^ai-|chatgpt|perplexity/, '05']];
+    for (var i = 0; i < T.length; i++) if (T[i][0].test(s)) return T[i][1];
+    return f.k === 'u' ? '91' : '90';
+  }
+  var code = (B.dataset.code || '99') + srcCode(ft);
   var txt = (ru ? 'Здравствуйте! Пишу с сайта ricforex.com, интересует SmartStrike. '
                 : "Hello! I'm writing from ricforex.com, I'm interested in SmartStrike. ") + code;
   var tgIco = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4ZM9 14.2l9.1-7.6c.4-.4-.1-.5-.6-.2l-10 6.3"/></svg>';
@@ -114,9 +155,11 @@
     document.querySelectorAll('a.btn[href^="https://t.me/ricfxa"]').forEach(function (a) {
       if (a.classList.contains('btn-sm')) {
         var m = document.createElement('div'); m.className = 'contact-menu';
-        m.innerHTML = '<a href="' + a.href + '" target="_blank" rel="noopener">' + tgIco + ' Telegram</a><a href="' + waHref + '" target="_blank" rel="noopener">' + ico + ' WhatsApp</a>';
+        m.innerHTML = '<a href="' + a.href + '" target="_blank" rel="noopener" data-from="menu">' + tgIco + ' Telegram</a><a href="' + waHref + '" target="_blank" rel="noopener" data-from="menu">' + ico + ' WhatsApp</a>';
         var w = document.createElement('span'); w.className = 'contact-wrap'; a.parentNode.insertBefore(w, a); w.append(a, m);
-        a.addEventListener('click', function (e) { e.preventDefault(); w.classList.toggle('open'); });
+        // кнопка шапки только открывает меню: это не клик по @ricfxa (считаем «menu: contact»), клик — по пункту меню
+        a.dataset.menu = '1';
+        a.addEventListener('click', function (e) { e.preventDefault(); if (w.classList.toggle('open')) gcEv('menu: contact | ' + P); });
         document.addEventListener('click', function (e) { if (!w.contains(e.target)) w.classList.remove('open'); });
       } else {
         var b = document.createElement('a'); b.className = 'btn btn-wa'; b.target = '_blank'; b.rel = 'noopener';
@@ -129,35 +172,37 @@
     document.querySelectorAll('a[href="https://wa.me/' + wa + '"]').forEach(function (a) { a.href = waHref; });
   }
   // 2. Учёт кликов по ссылкам наружу (работает, когда включён счётчик GoatCounter)
-  var gcEv = function (path, title) { if (window.goatcounter && goatcounter.count) goatcounter.count({ path: path, title: title || '', event: true }); };
+  // «click: адрес | страница[ | откуда: menu/exit/monitor-note] [src=…]»
   var outClick = function (e) {  // левый клик и клик колёсиком (открыть в новой вкладке)
     var a = e.target.closest && e.target.closest('a[href^="http"]');
-    if (a) gcEv('click: ' + a.href.split('?')[0].replace(/^https?:\/\//, '') + ' | ' + location.pathname, a.textContent.trim());
+    if (!a || a.dataset.menu) return;                                  // кнопка шапки «Написать» — только меню
+    if (e.type === 'click' && mon && a.href.indexOf(mon) === 0 && !a.dataset.ok) return;  // мониторинг: один раз, на «Понятно, открыть» (колёсиком — сразу)
+    gcEv('click: ' + a.href.split('?')[0].replace(/^https?:\/\//, '') + ' | ' + P + (a.dataset.from ? ' | ' + a.dataset.from : ''), a.textContent.trim());
   };
   document.addEventListener('click', outClick);
   document.addEventListener('auxclick', function (e) { if (e.button === 1) outClick(e); });
   // 3. Действия на сайте (Игорь 23.11: собирать максимум статистики)
   document.addEventListener('click', function (e) {
     var l = e.target.closest && e.target.closest('a.lang');
-    if (l) gcEv('lang: ' + l.textContent.trim() + ' | ' + location.pathname);
+    if (l) gcEv('lang: ' + l.textContent.trim() + ' | ' + P);
     var d = e.target.closest && e.target.closest('a[href*="#demo"]');
-    if (d) gcEv('demo-button | ' + location.pathname, d.textContent.trim());
+    if (d) gcEv('demo-button | ' + P, d.textContent.trim());
   });
   document.addEventListener('toggle', function (e) {  // открыли вопрос, архив дайджеста и т.п.
     var t = e.target;
-    if (t.tagName === 'DETAILS' && t.open) { var s = t.querySelector('summary'); gcEv('open: ' + location.pathname, s ? s.textContent.trim().slice(0, 80) : ''); }
+    if (t.tagName === 'DETAILS' && t.open) { var s = t.querySelector('summary'); gcEv('open: ' + P, s ? s.textContent.trim().slice(0, 80) : ''); }
   }, true);
   var depth = {};  // дочитал ли страницу: 50% и 90%
   window.addEventListener('scroll', function () {
     var h = document.documentElement, p = (h.scrollTop + innerHeight) / h.scrollHeight;
-    [50, 90].forEach(function (m) { if (p >= m / 100 && !depth[m]) { depth[m] = 1; gcEv('scroll ' + m + '% | ' + location.pathname); } });
+    [50, 90].forEach(function (m) { if (p >= m / 100 && !depth[m]) { depth[m] = 1; gcEv('scroll ' + m + '% | ' + P); } });
   }, { passive: true });
   // Окно перед переходом на живой мониторинг: что именно там показано
-  var mon = B.dataset.mon;
   if (mon) document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="' + mon + '"]');
     if (!a || a.dataset.ok) return;
     e.preventDefault();
+    gcEv('popup: monitor-note | ' + P);  // показ окна; переход — «click: fxmonitor.online/… | monitor-note»
     var br = B.dataset.monBroker, since = B.dataset.monSince;
     var w = document.createElement('div'); w.className = 'exit';
     w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
@@ -169,7 +214,7 @@
       '<p style="color:var(--muted);margin-bottom:20px">' + (ru
         ? 'Помесячные результаты на сайте — история стратегии за всё время, поэтому цифры на мониторинге могут немного отличаться.'
         : 'The monthly results on this site are the strategy history over the whole period, so the monitor figures may differ slightly.') + '</p>' +
-      '<a class="btn btn-green" style="width:100%;justify-content:center" href="' + a.href + '" target="_blank" rel="noopener">' + (ru ? 'Понятно, открыть мониторинг' : 'Got it, open the monitor') + '</a></div>';
+      '<a class="btn btn-green" style="width:100%;justify-content:center" href="' + a.href + '" target="_blank" rel="noopener" data-from="monitor-note">' + (ru ? 'Понятно, открыть мониторинг' : 'Got it, open the monitor') + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close() { w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.onclick = function (ev) { if (ev.target === w) close(); };
@@ -177,18 +222,20 @@
     go.addEventListener('click', function () { setTimeout(close, 200); });
   });
   // 3. Окно при уходе: компьютер — мышь уходит вверх; телефон — через 40 сек. Раз в 3 дня.
+  // Показ считается «popup: exit-offer», клики из окна — с пометкой «| exit».
   var KEY = 'ricExit', guide = B.dataset.guide, ch = B.dataset.ch;
   if (!guide) return;
   try { if (Date.now() - (+localStorage.getItem(KEY) || 0) < 3 * 864e5) return; } catch (e) {}
   var shown = false, t0 = Date.now();
   function show() {
     if (shown) return; shown = true; try { localStorage.setItem(KEY, Date.now()); } catch (e) {}
+    gcEv('popup: exit-offer | ' + P);
     var w = document.createElement('div'); w.className = 'exit';
     w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
       '<div class="kicker">' + (ru ? 'Подождите' : 'Before you go') + '</div>' +
       '<h3>' + (ru ? 'Заберите бесплатно' : 'Take these for free') + '</h3>' +
-      '<a class="exit-card" href="' + guide + '" download><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : 'Free, no sign-up. Click and the PDF downloads') + '</span></a>' +
-      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : 'Daily results, weekly summaries, market reviews') + '</span></a>' +
+      '<a class="exit-card" href="' + guide + '" download data-from="exit"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : 'Free, no sign-up. Click and the PDF downloads') + '</span></a>' +
+      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener" data-from="exit"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : 'Daily results, weekly summaries, market reviews') + '</span></a>' +
       // остальное бесплатное — маленькими кнопками (Игорь, 25.11.2026)
       '<div class="exit-chips">' + [
         ['🥇', ru ? 'Сигналы по золоту' : 'Gold signals', 'https://t.me/RICsignalsFREE'],
@@ -197,13 +244,18 @@
         ['🗓', ru ? 'Дайджест недели' : 'Weekly digest', 'digest.html'],
         ['🧰', ru ? 'Инструменты трейдера' : 'Trader tools', 'tools.html'],
         ['⭐', ru ? 'Отзывы клиентов' : 'Client reviews', 'reviews.html']
-      ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '"' + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
+      ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '" data-from="exit"' + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
       '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : 'No, thanks') + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.querySelector('.exit-skip').onclick = close;
     w.onclick = function (e) { if (e.target === w) close(); };
-    w.querySelectorAll('.exit-card, .exit-card-mini').forEach(function (a) { a.addEventListener('click', function () { setTimeout(close, 200); }); });
+    w.querySelectorAll('.exit-card, .exit-card-mini').forEach(function (a) {
+      a.addEventListener('click', function () {
+        if (!/^http/.test(a.getAttribute('href'))) gcEv('click: ' + a.getAttribute('href') + ' | ' + P + ' | exit', a.textContent.trim());  // свои страницы (наружу считает outClick)
+        setTimeout(close, 200);
+      });
+    });
   }
   document.addEventListener('mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 5 && Date.now() - t0 > 5000) show(); });
   if (matchMedia('(hover: none)').matches) setTimeout(show, 40000);
