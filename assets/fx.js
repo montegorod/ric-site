@@ -177,7 +177,9 @@
     var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a || a.dataset.menu) return;                                  // кнопка шапки «Написать» — только меню
     if (e.type === 'click' && mon && a.href.indexOf(mon) === 0 && !a.dataset.ok) return;  // мониторинг: один раз, на «Понятно, открыть» (колёсиком — сразу)
-    gcEv('click: ' + a.href.split('?')[0].replace(/^https?:\/\//, '') + ' | ' + P + (a.dataset.from ? ' | ' + a.dataset.from : ''), a.textContent.trim());
+    // ссылки-приглашения в каналы (t.me/+…, с 26.11.2026): в событии имя канала, а не код, — «click: tg RICforex (invite site) | …»
+    var to = a.dataset.tg ? 'tg ' + a.dataset.tg + ' (invite site)' : a.href.split('?')[0].replace(/^https?:\/\//, '');
+    gcEv('click: ' + to + ' | ' + P + (a.dataset.from ? ' | ' + a.dataset.from : ''), a.textContent.trim());
   };
   document.addEventListener('click', outClick);
   document.addEventListener('auxclick', function (e) { if (e.button === 1) outClick(e); });
@@ -223,7 +225,7 @@
   });
   // 3. Окно при уходе: компьютер — мышь уходит вверх; телефон — через 40 сек. Раз в 3 дня.
   // Показ считается «popup: exit-offer», клики из окна — с пометкой «| exit».
-  var KEY = 'ricExit', guide = B.dataset.guide, ch = B.dataset.ch;
+  var KEY = 'ricExit', guide = B.dataset.guide, ch = B.dataset.ch, chName = B.dataset.chName, free = B.dataset.free;
   if (!guide) return;
   try { if (Date.now() - (+localStorage.getItem(KEY) || 0) < 3 * 864e5) return; } catch (e) {}
   var shown = false, t0 = Date.now();
@@ -235,16 +237,16 @@
       '<div class="kicker">' + (ru ? 'Подождите' : 'Before you go') + '</div>' +
       '<h3>' + (ru ? 'Заберите бесплатно' : 'Take these for free') + '</h3>' +
       '<a class="exit-card" href="' + guide + '" download data-from="exit"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : 'Free, no sign-up. Click and the PDF downloads') + '</span></a>' +
-      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener" data-from="exit"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : 'Daily results, weekly summaries, market reviews') + '</span></a>' +
+      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener" data-from="exit" data-tg="' + chName + '"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : 'Daily results, weekly summaries, market reviews') + '</span></a>' +
       // остальное бесплатное — маленькими кнопками (Игорь, 25.11.2026)
       '<div class="exit-chips">' + [
-        ['🥇', ru ? 'Сигналы по золоту' : 'Gold signals', 'https://t.me/RICsignalsFREE'],
+        ['🥇', ru ? 'Сигналы по золоту' : 'Gold signals', free, 'RICsignalsFREE'],  // приглашение «site» из build.py (data-free)
         ['📡', ru ? 'Окна риска новостей' : 'News risk windows', 'radar.html'],
         ['🏦', ru ? 'Рейтинг брокеров' : 'Broker rating', 'brokers.html'],
         ['🗓', ru ? 'Дайджест недели' : 'Weekly digest', 'digest.html'],
         ['🧰', ru ? 'Инструменты трейдера' : 'Trader tools', 'tools.html'],
         ['⭐', ru ? 'Отзывы клиентов' : 'Client reviews', 'reviews.html']
-      ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '" data-from="exit"' + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
+      ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '" data-from="exit"' + (c[3] ? ' data-tg="' + c[3] + '"' : '') + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
       '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : 'No, thanks') + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
