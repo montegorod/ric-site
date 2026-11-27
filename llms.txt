@@ -1,6 +1,6 @@
 # Reliable Investments Company (ricforex.com)
 
-> Forex and gold (XAUUSD) copy trading. Our team's algorithmic system SmartStrike trades mainly gold; its trades are copied automatically to the client's own broker account (MetaTrader). The money stays in the client's account — we have no access to deposits or withdrawals. Fee: 50% of profit only, settled weekly; after a loss the fee resumes only once the account is back at its previous high. Every trade has a stop-loss. Three risk models. 14-day free demo. Clients from any country, including the USA. Sites in Russian and English.
+> Forex and gold (XAUUSD) copy trading. Our team's algorithmic system SmartStrike trades mainly gold; its trades are copied automatically to the client's own broker account (MetaTrader). The money stays in the client's account — we have no access to deposits or withdrawals. Fee: 50% of profit only, settled weekly; after a loss the fee resumes only once the account is back at its previous high. Every trade has a stop-loss. Three risk models. 14-day free demo. Clients from any country, including the USA. Site in Russian, English, Spanish, Portuguese, German, Turkish, Indonesian and Arabic.
 
 ## Main pages
 - [Home (EN)](https://ricforex.com/en/index.html) · [Главная (RU)](https://ricforex.com/ru/index.html)

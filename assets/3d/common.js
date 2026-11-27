@@ -8,7 +8,8 @@ export const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return 
 export const fract = (x) => x - Math.floor(x);
 export const LIGHT = matchMedia('(max-width:700px), (pointer:coarse)').matches;
 export const REDUCE = matchMedia('(prefers-reduced-motion:reduce)').matches;
-export const EN = document.documentElement.lang === 'en';
+export const EN = document.documentElement.lang !== 'ru';  // все языки, кроме русского, — от английского
+export const t = (s) => (window.RIC_I18N || {})[s] || s;  // перевод es/pt/de/tr/id/ar (build.py пишет window.RIC_I18N)
 
 export function random(seed = 1) {
   return () => {

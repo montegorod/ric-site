@@ -385,3 +385,23 @@ a.card.tool{border-color:rgba(0,210,106,.45)}
 @media (max-width:640px){.chips-t{flex-basis:100%}}
 .exit-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
 .exit-chips .chip{font-size:14px;padding:7px 12px}
+/* выбор языка (8 языков, 27.11.2026): выпадающий список и на телефоне */
+.nav .lang-dd{flex-direction:row;align-items:center}
+.nav .lang-dd .dd-t{display:inline-block}
+.nav .lang-dd .dd-m{display:none;position:absolute;top:100%;right:0;left:auto;padding-top:10px;min-width:170px;gap:0;flex-direction:column}
+.nav .lang-dd .dd-m::before{display:block;inset:10px 0 0}
+.nav .lang-dd .dd-m a{padding:9px 16px}
+.nav .lang-dd .dd-m a:first-child{margin-top:6px}.nav .lang-dd .dd-m a:last-child{margin-bottom:6px}
+.nav .lang-dd .dd-m a.on{color:var(--green)}
+.nav .lang-dd:hover .dd-m,.nav .lang-dd:focus-within .dd-m{display:flex}
+/* арабский: справа налево, шрифт с арабскими буквами */
+[dir=rtl] body{font-family:"Cairo","Jost",sans-serif}
+[dir=rtl] .nav .lang-dd .dd-m{right:auto;left:0}
+[dir=rtl] .dd-m{left:auto;right:-16px}
+[dir=rtl] .chart,[dir=rtl] .chart-m,[dir=rtl] .logo,[dir=rtl] .wm{direction:ltr}
+[dir=rtl] .table th,[dir=rtl] .table td{text-align:right}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3,[dir=rtl] .step::before{font-family:"Cairo",sans-serif;letter-spacing:0}
+.menu>a,.menu .dd-t,.nav .lang{white-space:nowrap}
+@media (max-width:1240px) and (min-width:961px){html:not([lang=ru]):not([lang=en]) .menu{gap:12px;font-size:13.5px}}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{line-height:1.35}
+html:not([lang=ru]):not([lang=en]) h1{hyphens:auto;overflow-wrap:break-word}

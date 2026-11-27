@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { C, TAU, LIGHT, EN, random, stage, dust, glow, comet, smooth, fract, play } from 'ric/common';
+import { C, TAU, LIGHT, EN, t, random, stage, dust, glow, comet, smooth, fract, play } from 'ric/common';
 
 const PW = 3.6, PH = 7.5, SW = 780, SH = 1660;
 const ease = (x) => 1 - (1 - x) ** 3;
@@ -85,13 +85,13 @@ export default async function (canvas) {
     grad.addColorStop(0, '#7dffb8'); grad.addColorStop(1, '#00b85c');
     g.save(); g.translate(54, 120); g.scale(0.78, 0.78); g.fillStyle = grad; R_LOGO.forEach((x) => g.fill(x)); g.restore();
     text(g, 'SmartStrike', 148, 172, 50, '#f4f6f8', 800);
-    text(g, (EN ? 'copy trading' : 'копирование сделок'), 148, 212, 27, '#9aa3b2', 400);
+    text(g, (EN ? t('copy trading') : 'копирование сделок'), 148, 212, 27, '#9aa3b2', 400);
     box(g, 598, 133, 130, 50, 25, 'rgba(245,194,66,.16)');
-    text(g, (EN ? 'example' : 'пример'), 663, 168, 27, '#f5c242', 700, 'center');
+    text(g, (EN ? t('example') : 'пример'), 663, 168, 27, '#f5c242', 700, 'center');
 
     box(g, 36, 256, 708, 640, 38, '#101821', '#1f2b33');
     text(g, 'XAUUSD', 76, 326, 40, '#f4f6f8', 700);
-    text(g, (EN ? 'gold' : 'золото'), 704, 326, 28, '#9aa3b2', 400, 'right');
+    text(g, (EN ? t('gold') : 'золото'), 704, 326, 28, '#9aa3b2', 400, 'right');
     g.strokeStyle = '#1b262d'; g.lineWidth = 2;
     for (let y = 400; y <= 820; y += 84) { g.beginPath(); g.moveTo(70, y); g.lineTo(710, y); g.stroke(); }
 
@@ -111,10 +111,10 @@ export default async function (canvas) {
       text(g, label, 132, y - 18, 26, '#05080b', 700, 'center');
       g.globalAlpha = 1;
     };
-    dashed(entry, '#7dffb8', (EN ? 'ENTRY' : 'ВХОД'), smooth(1.5, 2, t) * fade);
-    dashed(Math.min(860, entry + 130), '#f23645', (EN ? 'STOP' : 'СТОП'), smooth(4, 4.5, t) * fade);
+    dashed(entry, '#7dffb8', (EN ? t('ENTRY') : 'ВХОД'), smooth(1.5, 2, t) * fade);
+    dashed(Math.min(860, entry + 130), '#f23645', (EN ? t('STOP') : 'СТОП'), smooth(4, 4.5, t) * fade);
 
-    const steps = [[0.4, (EN ? 'System opened a trade' : 'Система открыла сделку'), 'SmartStrike · BUY XAUUSD'], [1.8, (EN ? 'Trade copied' : 'Сделка скопирована'), (EN ? 'to your broker account' : 'на ваш счёт у брокера')], [4.2, (EN ? 'Stop-loss set' : 'Стоп-лосс установлен'), (EN ? 'trade risk is limited' : 'риск по сделке ограничен')], [7.2, (EN ? 'All visible in MetaTrader' : 'Всё видно в MetaTrader'), (EN ? 'the account stays yours' : 'счёт остаётся вашим')]];
+    const steps = [[0.4, (EN ? t('System opened a trade') : 'Система открыла сделку'), 'SmartStrike · BUY XAUUSD'], [1.8, (EN ? t('Trade copied') : 'Сделка скопирована'), (EN ? t('to your broker account') : 'на ваш счёт у брокера')], [4.2, (EN ? t('Stop-loss set') : 'Стоп-лосс установлен'), (EN ? t('trade risk is limited') : 'риск по сделке ограничен')], [7.2, (EN ? t('All visible in MetaTrader') : 'Всё видно в MetaTrader'), (EN ? t('the account stays yours') : 'счёт остаётся вашим')]];
     steps.forEach(([at, a, b], i) => {
       const k = smooth(at, at + 0.6, t) * fade, y = 934 + i * 154;
       box(g, 36, y, 708, 134, 32, '#0d141b', '#18232b');
@@ -149,9 +149,9 @@ export default async function (canvas) {
     return m;
   };
   const cards = [
-    { m: card((EN ? 'Trade copied' : 'Сделка скопирована'), (EN ? 'in a split second' : 'за доли секунды'), '✓', '#00d26a'), at: 1.9, to: [2.55, 1.85, 1.5] },
-    { m: card((EN ? 'Stop-loss set' : 'Стоп-лосс установлен'), (EN ? 'risk limited' : 'риск ограничен'), '●', '#f5c242'), at: 4.3, to: [-2.55, -0.2, 1.6] },
-    { m: card((EN ? 'Account stays yours' : 'Счёт остаётся вашим'), (EN ? 'funds at your broker' : 'деньги у брокера'), '✓', '#5b8cff'), at: 7.3, to: [2.1, -3.0, 1.6] },
+    { m: card((EN ? t('Trade copied') : 'Сделка скопирована'), (EN ? t('in a split second') : 'за доли секунды'), '✓', '#00d26a'), at: 1.9, to: [2.55, 1.85, 1.5] },
+    { m: card((EN ? t('Stop-loss set') : 'Стоп-лосс установлен'), (EN ? t('risk limited') : 'риск ограничен'), '●', '#f5c242'), at: 4.3, to: [-2.55, -0.2, 1.6] },
+    { m: card((EN ? t('Account stays yours') : 'Счёт остаётся вашим'), (EN ? t('funds at your broker') : 'деньги у брокера'), '✓', '#5b8cff'), at: 7.3, to: [2.1, -3.0, 1.6] },
   ];
 
   // потоки сделок и подставка

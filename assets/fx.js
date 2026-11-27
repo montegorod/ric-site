@@ -79,8 +79,10 @@
 // Воронка: готовый текст сообщения Игорю, учёт кликов, окно при уходе.
 (function () {
   var ru = document.documentElement.lang === 'ru', B = document.body, P = location.pathname;
+  // другие языки (es, pt, de, tr, id, ar): перевод английского текста из window.RIC_I18N (его пишет build.py)
+  var tr = function (s) { return (window.RIC_I18N || {})[s] || s; };
   var page = B.dataset.page || (document.title.split('—')[0] || '').trim() || P;  // короткое имя страницы (data-page из build.py)
-  if (/^Reliable/.test(page)) page = ru ? 'Главная' : 'Home';
+  if (/^Reliable/.test(page)) page = ru ? 'Главная' : tr('Home');
   var mon = B.dataset.mon;
 
   // 0. Откуда пришёл (первое касание, 26.11.2026): метки utm_source/utm_campaign или известный referrer.
@@ -141,7 +143,7 @@
   }
   var code = (B.dataset.code || '99') + srcCode(ft);
   var txt = (ru ? 'Здравствуйте! Пишу с сайта ricforex.com, интересует SmartStrike. '
-                : "Hello! I'm writing from ricforex.com, I'm interested in SmartStrike. ") + code;
+                : tr('Hello! I am writing from ricforex.com, I am interested in SmartStrike.') + ' ') + code;
   var tgIco = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4ZM9 14.2l9.1-7.6c.4-.4-.1-.5-.6-.2l-10 6.3"/></svg>';
   document.querySelectorAll('a[href="https://t.me/ricfxa"]').forEach(function (a) {
     a.dataset.txt = a.dataset.msg ? a.dataset.msg + ' ' + code : txt; a.href += '?text=' + encodeURIComponent(a.dataset.txt);
@@ -165,7 +167,7 @@
         var b = document.createElement('a'); b.className = 'btn btn-wa'; b.target = '_blank'; b.rel = 'noopener';
         b.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent(a.dataset.txt);
         var label = a.textContent.trim();
-        if (!/Telegram/.test(label)) { label += ru ? ' через Telegram' : ' via Telegram'; a.innerHTML = tgIco + ' ' + label; }
+        if (!/Telegram/.test(label)) { label += ru ? ' через Telegram' : tr(' via Telegram'); a.innerHTML = tgIco + ' ' + label; }
         b.innerHTML = ico + ' ' + label.replace('Telegram', 'WhatsApp'); a.after(b);
       }
     });
@@ -208,15 +210,15 @@
     var br = B.dataset.monBroker, since = B.dataset.monSince;
     var w = document.createElement('div'); w.className = 'exit';
     w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
-      '<div class="kicker">' + (ru ? 'Обратите внимание' : 'Please note') + '</div>' +
-      '<h3>' + (ru ? 'Что показывает мониторинг' : 'What the monitor shows') + '</h3>' +
+      '<div class="kicker">' + (ru ? 'Обратите внимание' : tr('Please note')) + '</div>' +
+      '<h3>' + (ru ? 'Что показывает мониторинг' : tr('What the monitor shows')) + '</h3>' +
       '<p style="color:var(--muted);margin-bottom:12px">' + (ru
         ? 'Живой мониторинг показывает <b style="color:var(--text)">последнюю версию SmartStrike</b> после всех обновлений, на одном счёте у брокера <b style="color:var(--text)">' + br + '</b>, с <b style="color:var(--text)">' + since + '</b>.'
-        : 'The live monitor shows <b style="color:var(--text)">the latest version of SmartStrike</b> after all updates, on one account with <b style="color:var(--text)">' + br + '</b>, since <b style="color:var(--text)">' + since + '</b>.') + '</p>' +
+        : tr('The live monitor shows <b>the latest version of SmartStrike</b> after all updates, on one account with <b>{broker}</b>, since <b>{date}</b>.').replace(/<b>/g, '<b style="color:var(--text)">').replace('{broker}', br).replace('{date}', since)) + '</p>' +
       '<p style="color:var(--muted);margin-bottom:20px">' + (ru
         ? 'Помесячные результаты на сайте — история стратегии за всё время, поэтому цифры на мониторинге могут немного отличаться.'
-        : 'The monthly results on this site are the strategy history over the whole period, so the monitor figures may differ slightly.') + '</p>' +
-      '<a class="btn btn-green" style="width:100%;justify-content:center" href="' + a.href + '" target="_blank" rel="noopener" data-from="monitor-note">' + (ru ? 'Понятно, открыть мониторинг' : 'Got it, open the monitor') + '</a></div>';
+        : tr('The monthly results on this site are the strategy history over the whole period, so the monitor figures may differ slightly.')) + '</p>' +
+      '<a class="btn btn-green" style="width:100%;justify-content:center" href="' + a.href + '" target="_blank" rel="noopener" data-from="monitor-note">' + (ru ? 'Понятно, открыть мониторинг' : tr('Got it, open the monitor')) + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close() { w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.onclick = function (ev) { if (ev.target === w) close(); };
@@ -234,20 +236,20 @@
     gcEv('popup: exit-offer | ' + P);
     var w = document.createElement('div'); w.className = 'exit';
     w.innerHTML = '<div class="exit-box"><button class="exit-x" aria-label="close">×</button>' +
-      '<div class="kicker">' + (ru ? 'Подождите' : 'Before you go') + '</div>' +
-      '<h3>' + (ru ? 'Заберите бесплатно' : 'Take these for free') + '</h3>' +
-      '<a class="exit-card" href="' + guide + '" download data-from="exit"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : 'Technical analysis guide') + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : 'Free, no sign-up. Click and the PDF downloads') + '</span></a>' +
-      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener" data-from="exit" data-tg="' + chName + '"><b>📈 ' + (ru ? 'Наш Telegram-канал' : 'Our Telegram channel') + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : 'Daily results, weekly summaries, market reviews') + '</span></a>' +
+      '<div class="kicker">' + (ru ? 'Подождите' : tr('Before you go')) + '</div>' +
+      '<h3>' + (ru ? 'Заберите бесплатно' : tr('Take these for free')) + '</h3>' +
+      '<a class="exit-card" href="' + guide + '" download data-from="exit"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : tr('Technical analysis guide')) + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : tr('Free, no sign-up. Click and the PDF downloads')) + '</span></a>' +
+      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener" data-from="exit" data-tg="' + chName + '"><b>📈 ' + (ru ? 'Наш Telegram-канал' : tr('Our Telegram channel')) + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : tr('Daily results, weekly summaries, market reviews')) + '</span></a>' +
       // остальное бесплатное — маленькими кнопками (Игорь, 25.11.2026)
       '<div class="exit-chips">' + [
-        ['🥇', ru ? 'Сигналы по золоту' : 'Gold signals', free, 'RICsignalsFREE'],  // приглашение «site» из build.py (data-free)
-        ['📡', ru ? 'Окна риска новостей' : 'News risk windows', 'radar.html'],
-        ['🏦', ru ? 'Рейтинг брокеров' : 'Broker rating', 'brokers.html'],
-        ['🗓', ru ? 'Дайджест недели' : 'Weekly digest', 'digest.html'],
-        ['🧰', ru ? 'Инструменты трейдера' : 'Trader tools', 'tools.html'],
-        ['⭐', ru ? 'Отзывы клиентов' : 'Client reviews', 'reviews.html']
+        ['🥇', ru ? 'Сигналы по золоту' : tr('Gold signals'), free, 'RICsignalsFREE'],  // приглашение «site» из build.py (data-free)
+        ['📡', ru ? 'Окна риска новостей' : tr('News risk windows'), 'radar.html'],
+        ['🏦', ru ? 'Рейтинг брокеров' : tr('Broker rating'), 'brokers.html'],
+        ['🗓', ru ? 'Дайджест недели' : tr('Weekly digest'), 'digest.html'],
+        ['🧰', ru ? 'Инструменты трейдера' : tr('Trader tools'), 'tools.html'],
+        ['⭐', ru ? 'Отзывы клиентов' : tr('Client reviews'), 'reviews.html']
       ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '" data-from="exit"' + (c[3] ? ' data-tg="' + c[3] + '"' : '') + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
-      '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : 'No, thanks') + '</a></div>';
+      '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : tr('No, thanks')) + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
     w.querySelector('.exit-x').onclick = close; w.querySelector('.exit-skip').onclick = close;

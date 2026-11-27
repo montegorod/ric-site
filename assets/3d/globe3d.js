@@ -1,6 +1,6 @@
 // 1. Глобус из точек: сделки летят дугами по миру.
 import * as THREE from 'three';
-import { C, TAU, LIGHT, EN, random, glow, comet, smooth, fract, play } from 'ric/common';
+import { C, TAU, LIGHT, EN, t, random, glow, comet, smooth, fract, play } from 'ric/common';
 import { stage, points, labels } from 'ric/globe-base';
 import LAND from 'ric/land';
 
@@ -121,7 +121,7 @@ export default async function (canvas) {
   scene.add(points(sp, sc, ss));
 
   const hubTag = tag('SmartStrike', 'hub');
-  const tags = [5, 11, 18].map((i) => ({ i, show: tag(EN ? '<i>✓</i>Trade copied' : '<i>✓</i>Сделка скопирована') }));
+  const tags = [5, 11, 18].map((i) => ({ i, show: tag(EN ? t('<i>✓</i>Trade copied') : '<i>✓</i>Сделка скопирована') }));
   const wp = new THREE.Vector3(), normal = new THREE.Vector3(), toCam = new THREE.Vector3();
   const facing = (v) => {
     wp.copy(v); world.localToWorld(wp);
