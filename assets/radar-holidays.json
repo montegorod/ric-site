@@ -1,24 +1,23 @@
 {
-  "_note": "RIC News Radar: праздники и закрытие рынков (Игорь 27.11.2026). Один источник для канала (radar.py) и сайта (site/build.py копирует в assets/radar-holidays.json). type: closed — золото и индексы США не торгуются весь день; early — раннее закрытие золота и индексов США около close_utc: праздники США с остановкой торгов — по брокеру Игоря (26.11.2026 золото закрылось в 20:00 UTC = 15:00 по Нью-Йорку, летом 19:00 UTC); сокращённые дни (пятница после Дня благодарения, канун Рождества) — по брокеру Игоря: 27.11.2026 золото закрылось около 20:45 по Черногории = 19:45 UTC; eve — сокращённый день у многих брокеров без точного времени; thin — банки страны закрыты, рынок работает, ликвидность ниже. Праздники недели из ForexFactory (impact Holiday), которых нет здесь, добавляются сами: USD — как внеплановое закрытие, другие — как thin.",
+  "_note": "RIC News Radar: праздники и закрытие рынков (Игорь 27.11.2026). Один источник для канала (radar.py) и сайта (site/build.py копирует в assets/radar-holidays.json). Время — по официальному расписанию биржи CME Globex (cmegroup.com/trading-hours.html, снято 27.11.2026 на праздники до 01.2028), переведено в UTC: close_utc — остановка золота (GC, металлы), idx_utc — остановка индексов США (ES). Брокеры закрываются в это же время или на несколько минут позже. type: closed — золото и индексы не торгуются весь день; early — раннее закрытие; thin — банки страны закрыты, рынок работает, ликвидность ниже (не CME). 31.12 по CME обычный день — в таблице нет. Праздники недели из ForexFactory (impact Holiday), которых нет здесь, добавляются сами: USD — как внеплановое закрытие, другие — как thin.",
+  "source": "CME Globex trading hours, 2026-11-27",
   "holidays": [
-    {"date": "2026-11-26", "type": "early", "close_utc": "20:00", "curs": ["USD"], "ru": "День благодарения (США)", "en": "Thanksgiving (US)"},
-    {"date": "2026-11-27", "type": "early", "close_utc": "19:45", "curs": ["USD"], "ru": "Пятница после Дня благодарения (США)", "en": "Day after Thanksgiving (US)"},
-    {"date": "2026-12-24", "type": "early", "close_utc": "19:45", "curs": ["USD", "EUR", "GBP"], "ru": "Канун Рождества", "en": "Christmas Eve"},
+    {"date": "2026-11-26", "type": "early", "close_utc": "19:30", "idx_utc": "18:00", "curs": ["USD"], "ru": "День благодарения (США)", "en": "Thanksgiving (US)"},
+    {"date": "2026-11-27", "type": "early", "close_utc": "19:45", "idx_utc": "18:15", "curs": ["USD"], "ru": "Пятница после Дня благодарения (США)", "en": "Day after Thanksgiving (US)"},
+    {"date": "2026-12-24", "type": "early", "close_utc": "18:45", "idx_utc": "18:15", "curs": ["USD", "EUR", "GBP"], "ru": "Канун Рождества", "en": "Christmas Eve"},
     {"date": "2026-12-25", "type": "closed", "curs": ["ALL"], "ru": "Рождество", "en": "Christmas Day"},
     {"date": "2026-12-28", "type": "thin", "curs": ["GBP", "AUD", "NZD", "CAD"], "ru": "День подарков (перенос)", "en": "Boxing Day (observed)"},
-    {"date": "2026-12-31", "type": "eve", "curs": ["ALL"], "ru": "Канун Нового года", "en": "New Year's Eve"},
     {"date": "2027-01-01", "type": "closed", "curs": ["ALL"], "ru": "Новый год", "en": "New Year's Day"},
-    {"date": "2027-01-18", "type": "early", "close_utc": "20:00", "curs": ["USD"], "ru": "День Мартина Лютера Кинга (США)", "en": "Martin Luther King Jr. Day (US)"},
-    {"date": "2027-02-15", "type": "early", "close_utc": "20:00", "curs": ["USD"], "ru": "День президентов (США)", "en": "Presidents' Day (US)"},
+    {"date": "2027-01-18", "type": "early", "close_utc": "19:30", "idx_utc": "18:00", "curs": ["USD"], "ru": "День Мартина Лютера Кинга (США)", "en": "Martin Luther King Jr. Day (US)"},
+    {"date": "2027-02-15", "type": "early", "close_utc": "19:30", "idx_utc": "18:00", "curs": ["USD"], "ru": "День президентов (США)", "en": "Presidents' Day (US)"},
     {"date": "2027-03-26", "type": "closed", "curs": ["ALL"], "ru": "Страстная пятница", "en": "Good Friday"},
     {"date": "2027-03-29", "type": "thin", "curs": ["EUR", "GBP", "CHF", "AUD", "NZD"], "ru": "Пасхальный понедельник", "en": "Easter Monday"},
-    {"date": "2027-05-31", "type": "early", "close_utc": "19:00", "curs": ["USD"], "ru": "День памяти (США)", "en": "Memorial Day (US)"},
-    {"date": "2027-06-18", "type": "early", "close_utc": "19:00", "curs": ["USD"], "ru": "Джунтин (США, перенос)", "en": "Juneteenth (US, observed)"},
-    {"date": "2027-07-05", "type": "early", "close_utc": "19:00", "curs": ["USD"], "ru": "День независимости (США, перенос)", "en": "Independence Day (US, observed)"},
-    {"date": "2027-09-06", "type": "early", "close_utc": "19:00", "curs": ["USD"], "ru": "День труда (США)", "en": "Labor Day (US)"},
-    {"date": "2027-11-25", "type": "early", "close_utc": "20:00", "curs": ["USD"], "ru": "День благодарения (США)", "en": "Thanksgiving (US)"},
-    {"date": "2027-11-26", "type": "early", "close_utc": "19:45", "curs": ["USD"], "ru": "Пятница после Дня благодарения (США)", "en": "Day after Thanksgiving (US)"},
-    {"date": "2027-12-24", "type": "closed", "curs": ["ALL"], "ru": "Рождество (перенос)", "en": "Christmas (observed)"},
-    {"date": "2027-12-31", "type": "eve", "curs": ["ALL"], "ru": "Канун Нового года", "en": "New Year's Eve"}
+    {"date": "2027-05-31", "type": "early", "close_utc": "18:30", "idx_utc": "17:00", "curs": ["USD"], "ru": "День памяти (США)", "en": "Memorial Day (US)"},
+    {"date": "2027-06-18", "type": "early", "close_utc": "17:00", "idx_utc": "17:00", "curs": ["USD"], "ru": "Джунтин (США, перенос)", "en": "Juneteenth (US, observed)"},
+    {"date": "2027-07-05", "type": "early", "close_utc": "18:30", "idx_utc": "17:00", "curs": ["USD"], "ru": "День независимости (США, перенос)", "en": "Independence Day (US, observed)"},
+    {"date": "2027-09-06", "type": "early", "close_utc": "18:30", "idx_utc": "17:00", "curs": ["USD"], "ru": "День труда (США)", "en": "Labor Day (US)"},
+    {"date": "2027-11-25", "type": "early", "close_utc": "19:30", "idx_utc": "18:00", "curs": ["USD"], "ru": "День благодарения (США)", "en": "Thanksgiving (US)"},
+    {"date": "2027-11-26", "type": "early", "close_utc": "19:45", "idx_utc": "18:15", "curs": ["USD"], "ru": "Пятница после Дня благодарения (США)", "en": "Day after Thanksgiving (US)"},
+    {"date": "2027-12-24", "type": "closed", "curs": ["ALL"], "ru": "Рождество (перенос)", "en": "Christmas (observed)"}
   ]
 }
