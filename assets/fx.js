@@ -143,7 +143,7 @@
   }
   var code = (B.dataset.code || '99') + srcCode(ft);
   var txt = (ru ? 'Здравствуйте! Пишу с сайта ricforex.com, интересует SmartStrike. '
-                : tr('Hello! I am writing from ricforex.com, I am interested in SmartStrike.') + ' ') + code;
+                : "Hello! I'm writing from ricforex.com, I'm interested in SmartStrike. ") + code;
   var tgIco = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4ZM9 14.2l9.1-7.6c.4-.4-.1-.5-.6-.2l-10 6.3"/></svg>';
   document.querySelectorAll('a[href="https://t.me/ricfxa"]').forEach(function (a) {
     a.dataset.txt = a.dataset.msg ? a.dataset.msg + ' ' + code : txt; a.href += '?text=' + encodeURIComponent(a.dataset.txt);
