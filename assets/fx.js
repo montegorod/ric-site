@@ -239,16 +239,8 @@
       '<div class="kicker">' + (ru ? 'Подождите' : tr('Before you go')) + '</div>' +
       '<h3>' + (ru ? 'Заберите бесплатно' : tr('Take these for free')) + '</h3>' +
       '<a class="exit-card" href="' + guide + '" download data-from="exit"><b>📘 ' + (ru ? 'Самоучитель по техническому анализу' : tr('Technical analysis guide')) + '</b><span>' + (ru ? 'Бесплатно, без регистрации. Нажмите, и PDF скачается' : tr('Free, no sign-up. Click and the PDF downloads')) + '</span></a>' +
-      '<a class="exit-card" href="' + ch + '" target="_blank" rel="noopener" data-from="exit" data-tg="' + chName + '"><b>📈 ' + (ru ? 'Наш Telegram-канал' : tr('Our Telegram channel')) + '</b><span>' + (ru ? 'Результаты каждый день, итоги недели, обзоры рынка' : tr('Daily results, weekly summaries, market reviews')) + '</span></a>' +
-      // остальное бесплатное — маленькими кнопками (Игорь, 25.11.2026)
-      '<div class="exit-chips">' + [
-        ['🥇', ru ? 'Сигналы по золоту' : tr('Gold signals'), free, 'RICsignalsFREE'],  // приглашение «site» из build.py (data-free)
-        ['📡', ru ? 'Окна риска новостей' : tr('News risk windows'), 'radar.html'],
-        ['🏦', ru ? 'Рейтинг брокеров' : tr('Broker rating'), 'brokers.html'],
-        ['🗓', ru ? 'Дайджест недели' : tr('Weekly digest'), 'digest.html'],
-        ['🧰', ru ? 'Инструменты трейдера' : tr('Trader tools'), 'tools.html'],
-        ['⭐', ru ? 'Отзывы клиентов' : tr('Client reviews'), 'reviews.html']
-      ].map(function (c) { return '<a class="chip exit-card-mini" href="' + c[2] + '" data-from="exit"' + (c[3] ? ' data-tg="' + c[3] + '"' : '') + (/^http/.test(c[2]) ? ' target="_blank" rel="noopener"' : '') + '>' + c[0] + ' ' + c[1] + '</a>'; }).join('') + '</div>' +
+      // только то, что человек реально забирает с собой (Игорь, 28.11.2026): самоучитель и бесплатные сигналы; каналы и страницы сайта убраны
+      '<a class="exit-card" href="' + free + '" target="_blank" rel="noopener" data-from="exit" data-tg="RICsignalsFREE"><b>🥇 ' + (ru ? 'Бесплатные сигналы по золоту' : tr('Free gold signals')) + '</b><span>' + (ru ? 'Сигнал дня по XAUUSD в Telegram и итог каждой сделки' : tr('A daily XAUUSD signal on Telegram and the result of every trade')) + '</span></a>' +
       '<a class="exit-skip" href="#">' + (ru ? 'Нет, спасибо' : tr('No, thanks')) + '</a></div>';
     B.appendChild(w); requestAnimationFrame(function () { w.classList.add('on'); });
     function close(e) { if (e) e.preventDefault(); w.classList.remove('on'); setTimeout(function () { w.remove(); }, 300); }
